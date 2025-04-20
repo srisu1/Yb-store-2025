@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lottie Color Test</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.2/lottie.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    #logo {
+      width: 300px;
+      height: 300px;
+      border: 2px dashed #ccc;
+    }
+  </style>
+</head>
+<body>
+
+<div id="logo"></div>
+
+<script>
+  const animation = lottie.loadAnimation({
+    container: document.getElementById('logo'),
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: 'yonder.json' // ✅ must be in the same folder as this HTML
+  });
+
+  animation.addEventListener('DOMLoaded', () => {
+    console.log('Lottie loaded');
+    const svg = document.querySelector('#logo svg');
+    
+    // Force all fills to change
+    svg.querySelectorAll('[fill]').forEach(el => {
+      const fill = el.getAttribute('fill');
+      if (fill && fill !== 'none' && fill !== '#ffffff') {
+        el.setAttribute('fill', '#00ff99'); // 🎨 your custom color
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
