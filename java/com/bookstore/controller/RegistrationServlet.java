@@ -10,14 +10,14 @@ import java.time.format.DateTimeFormatter;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
-
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-
+@WebServlet("/register")
 @MultipartConfig(
     fileSizeThreshold = 1024 * 1024 * 2,  // 2MB
     maxFileSize = 1024L * 1024L * 10L,    // 10MB
@@ -132,7 +132,7 @@ public class RegistrationServlet extends HttpServlet {
         // HANDLE RESULT
         if (success) {
             request.setAttribute("triggerLogin", true);
-            request.setAttribute("info", "🎉 Registration successful! Please login.");
+            request.setAttribute("info", "Registration successful! Please login.");
         } else {
             request.setAttribute("error", "Registration failed. Please try again.");
             request.setAttribute("triggerRegister", true);
@@ -145,4 +145,3 @@ public class RegistrationServlet extends HttpServlet {
        
         
     }
-
