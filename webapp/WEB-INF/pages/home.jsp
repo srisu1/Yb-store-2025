@@ -112,32 +112,36 @@
                     <c:forEach var="book" items="${books}">
 					    <div class="book-card">
 					    	<img src="<c:url value='${book.coverImageUrl}' />" alt="Book Cover" />
-					        <h2>${book.title}</h2>
-					        <p>${book.description}</p>
-					        <p>Price: Rs. ${book.price}</p>
+					        <h3>${book.title}</h3>
 					        
-					        <c:forEach var="author" items="${book.authors}">
-					            <p>Author: ${author.name}</p>
-					        </c:forEach>
+					        <p> Rs. ${book.price}</p>
+					        
+					        
 					    </div>
 					</c:forEach>
                 </div>
-				
-				
+                
 				
 				<h2>New Arrivals</h2>
-				<c:forEach var="book" items="${books}">
-				    <div class="book-card">
-				    	<img src="<c:url value='${book.coverImageUrl}' />" alt="Book Cover" />
-				        <h2>${book.title}</h2>
-				        <p>${book.description}</p>
-				        <p>Price: Rs. ${book.price}</p>
-				        
-				        <c:forEach var="author" items="${book.authors}">
-				            <p>Author: ${author.name}</p>
-				        </c:forEach>
-				    </div>
-				</c:forEach>
+				<div class="book-container">
+				
+					
+					
+					<c:forEach var="book" items="${books}">
+					    <div class="book-card">
+					    	<img src="<c:url value='${book.coverImageUrl}' />" alt="Book Cover" />
+					        <h3>${book.title}</h2>
+					        
+					        <p>Price:  ${book.price}</p>
+					        
+					       
+					    </div>
+					</c:forEach>
+				
+				
+				</div>
+				
+				
 				
 			</div>
 

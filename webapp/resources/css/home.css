@@ -11,11 +11,19 @@
     src: url(fonts/PlayfairDisplay-VariableFont_wght.ttf);
     font-weight: 200 300;
   }
-  Main-Container{
+  
+  @font-face {
+    font-family: 'Karla'; 
+    src: url(fonts/Karla-VariableFont_wght.ttf);
+    font-weight: 500 500;
+  }
+  
+  
+  .Main-Container{
 
     display: flex;
     flex-direction: column;
-    background-color:red;
+    
     
     width: 100%; 
     margin: 0 auto; 
@@ -23,6 +31,7 @@
 }
 h1, body, span {
     font-family: 'Playfair Display', serif;
+    font-weight:100;
   }
 
 
@@ -57,13 +66,14 @@ img {
     justify-items: center;
     align-items: center;
     height: auto;
+    position:relative;
     
     
     
    
 }
 .Hero-Image {
-    width: 100%;
+    max-width: 35rem;  
     height: 100%;
     display: flex;
     justify-content: center;
@@ -75,7 +85,8 @@ img {
     align-self: end;
     position: relative;
     right: -60px;
-    top: -20px;
+    top: 30px;
+    border-radius: 10px;
    
    
 
@@ -93,6 +104,8 @@ img {
     opacity: 1;
     object-position: center;
     transform: scale(1.2);
+    border-radius: 10px;
+    
     
     
 }
@@ -105,20 +118,25 @@ img {
 .Hero-Text  {
     width:100%;
     height:30%;
-    grid-column: 1/4;
+    grid-column: 1/5;
     grid-row: 1/3;
     display: grid;
     align-self: center;
-    font-size: 5vw;
-    justify-items: center;
-    position: relative;
-    left: 150px;
-    bottom: 60px;
+    font-size: 5.8rem;
+    justify-items:flex-start;
+    position: absolute;
+    z-index:10;
+    gap:2rem;
+    letter-spacing: 0px;
+    
+   left:150px;
+   bottom:150px;
    
   }
 .Hero-Text .bottom{
     position: relative;
     bottom: 70px;
+   
 }
 
 .Hero-Button {
@@ -129,6 +147,7 @@ img {
     display: grid;
     grid-row: 3/4;
     grid-column: 1/2;
+    
     
 }
   
@@ -145,7 +164,8 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
-    right: -130px;
+    right: -70px;
+    bottom:-80px;
   }
   
   .blob-button svg {
@@ -200,51 +220,60 @@ img {
 /* Book Section Styling */
 .Book-Section {
     padding: 2rem;
-    background-color: #f4f4f4;
+    background-color: #F4EFE3;
+    width:80%;
+    margin: 0 auto;
+    
+    
 }
 
-.Book-Section .section-title {
+.Book-Section h2 {
     font-size: 2.5rem;
     text-align: center;
-    margin-bottom: 1.5rem;
-    font-weight: bold;
+    margin-bottom: 4rem;
+    font-weight: 100;
     color: #333;
-    text-transform: uppercase;
+    font-family:Playfair Display;
 }
 
 .book-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* 4 items per row on large screens */
-    gap: 2rem;
+    
     justify-items: center;
+    background-color: #F4EFE3;
+    margin-bottom: 2rem;
+    
 }
 
 .book-card {
-    background-color: #fff;
-    padding: 1.5rem;
+    background-color: #F4EFE3;
+    padding: 1rem;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     width: 100%;
-    max-width: 250px;
+    max-width: 240px;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
+    
 }
 
 .book-card img {
     width: 100%;
-    height: auto;
+    height: 300px;
     border-radius: 8px;
     margin-bottom: 1rem;
 }
 
 .book-card h3 {
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: #333;
-    margin: 0.5rem 0;
+    margin: 0.1rem ;
+    font-family:Karla;
 }
 
 .book-card p {
@@ -268,8 +297,11 @@ img {
     background-color: #0056b3;
 }
 
-/* Hover effect for book cards */
-.book-card:hover {
+.book-card img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;  /* Smooth transition */
+}
+
+.book-card img:hover {
     transform: translateY(-10px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
@@ -284,6 +316,7 @@ img {
 @media screen and (max-width: 768px) {
     .Book-Section {
         padding: 1rem;
+        background-color:#F4EFE3;
     }
 
     .book-container {
@@ -307,4 +340,16 @@ img {
     .book-container {
         grid-template-columns: 1fr; /* 1 item per row on very small screens */
     }
+}
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    display: none;
+    font-size: 16px;
 }
