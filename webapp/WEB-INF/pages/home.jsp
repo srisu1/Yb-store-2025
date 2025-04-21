@@ -3,6 +3,12 @@
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<%@ page import="com.bookstore.model.User" %>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,16 +18,37 @@
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/home.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/modal.css">
 	<script>
-  const contextPath = "${pageContext.request.contextPath}";
-  
-  
-</script>
+	  const contextPath = "${pageContext.request.contextPath}";
+	  const isLoggedIn = ${not empty sessionScope.user};  // Critical login state check
+	</script>
 	
 
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+
+
+<% 
+        String errorMessage = (String) request.getAttribute("error");
+        if (errorMessage != null) {
+    %>
+        <div class="error-message"><%= errorMessage %></div>
+    <% 
+        }
+        
+        // Check if user is logged in
+        User loggedInUser = (User) session.getAttribute("user");
+        if (loggedInUser != null) {
+    %>
+        <p>Welcome, <%= loggedInUser.getEmail() %>!</p>
+    <% 
+        } else {
+    %>
+        <p>Please log in to access your account.</p>
+    <% 
+        }
+    %>
 
     <!-- Main container that contains the whole layout  -->
     <div class="Main-Container"> 
@@ -81,10 +108,36 @@
             
             <div class="Book-Section">
 			    <h2>Best Sellers</h2>
+			    <div class="book-container">
+                    <c:forEach var="book" items="${books}">
+					    <div class="book-card">
+					    	<img src="<c:url value='${book.coverImageUrl}' />" alt="Book Cover" />
+					        <h2>${book.title}</h2>
+					        <p>${book.description}</p>
+					        <p>Price: Rs. ${book.price}</p>
+					        
+					        <c:forEach var="author" items="${book.authors}">
+					            <p>Author: ${author.name}</p>
+					        </c:forEach>
+					    </div>
+					</c:forEach>
+                </div>
 				
 				
 				
 				<h2>New Arrivals</h2>
+				<c:forEach var="book" items="${books}">
+				    <div class="book-card">
+				    	<img src="<c:url value='${book.coverImageUrl}' />" alt="Book Cover" />
+				        <h2>${book.title}</h2>
+				        <p>${book.description}</p>
+				        <p>Price: Rs. ${book.price}</p>
+				        
+				        <c:forEach var="author" items="${book.authors}">
+				            <p>Author: ${author.name}</p>
+				        </c:forEach>
+				    </div>
+				</c:forEach>
 				
 			</div>
 
@@ -111,9 +164,23 @@
 		        });
 		    </script>
 		</c:if>
+		
+		<c:if test="${not empty param.showLogin}">
+		    <script>
+		        document.addEventListener('DOMContentLoaded', function() {
+		            document.getElementById('loginOverlay').style.display = 'flex';
+		            document.body.classList.add('modal-open');
+		        });
+		    </script>
+		</c:if>
+		
+		<div id="cookieSuccessToast" class="toast">
+		    <p>Your login is saved. You will stay logged in for a week!</p>
+		</div>
     <!-- Main Container Ends Here -->
 
     <jsp:include page="/includes/Footer.jsp" />
+    
    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.0/lottie.min.js"></script>
    <script src="${pageContext.request.contextPath}/resources/js/modal.js" defer></script>
