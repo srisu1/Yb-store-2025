@@ -18,7 +18,7 @@
   }
   
   .modal-content {
-    background: white;
+    background:#F4EFE3;
     padding: 30px;
     border-radius: 10px;
     width: 400px;
@@ -37,43 +37,80 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    
   }
   
   .social-login {
     padding: 12px;
-    border: 1px solid #ddd;
+    border: 1px solid #000000;
     border-radius: 5px;
     cursor: pointer;
+    background-color:#F4EAC4;
   }
   
   .separator {
     text-align: center;
     position: relative;
-    margin: 15px 0;
+    margin: 10px ;
   }
   
   .form-group input {
     width: 100%;
     padding: 12px;
-    border: 1px solid #ddd;
+    border: 1px solid black;
     border-radius: 5px;
+    margin-bottom:12px;
+    background-color: #F4EFE3;
   }
   
   .options {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin:5px;
   }
   
   .login-btn {
     width: 100%;
     padding: 12px;
-    background: #007bff;
-    color: white;
-    border: none;
+    background-color:#F4EAC4 ;
+    color: #263843 ;
+    border: 1px solid black;
     border-radius: 5px;
     cursor: pointer;
   }
+  
+  .login-form h2 {
+  text-align: center;
+}
+
+
+.separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  font-weight: bold;
+  margin: 15px 0;
+  font-size: 1rem;
+}
+
+.separator::before,
+.separator::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.separator::before {
+  margin-right: 1rem;
+}
+
+.separator::after {
+  margin-left: 1rem;
+}
+
+
   
   /* Add blur to main content when modal is open */
   body.modal-open {
@@ -109,7 +146,11 @@
     border: 2px solid #ddd;
     border-radius: 25px;
   }
+  a{
+  text-decoration: underline;
+  color: black;
   
+  }
   .search-btn {
     width: 100%;
     padding: 15px;
@@ -131,20 +172,28 @@
     position: fixed;
     right: 0;
     top: 0;
-    height: 100vh;
-    width: 400px;
-    background: white;
+    height: 70vh;
+    width: 700px;
+    background: #F4EFE3;
     box-shadow: -2px 0 15px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
+    border:1px solid black;
   }
   
   .cart-header {
     padding: 20px;
     border-bottom: 1px solid #eee;
     display: flex;
-    justify-content: space-between;
+    justify-content:center;
     align-items: center;
+
+  position: relative;
+  padding: 1rem;
+  }
+  .cart-header h2{
+  font-family:Playfair Display;
+  text-align: center;
   }
   
   .cart-items {
@@ -159,18 +208,30 @@
     border-bottom: 1px solid #eee;
   }
   
+  
   .item-info {
     display: flex;
     align-items: flex-start;
     margin-bottom: 15px;
   }
   
+ h3{
+  	margin-bottom:15px;
+  	font-family:Karla;
+  	font-weight:300;
+  	font-size:20px;
+  }
   .item-select {
     margin-right: 15px;
   }
   
   .item-details {
     flex: 1;
+  }
+  .item-details img{
+  width:150px;
+  height:200px;
+  
   }
   
   .quantity-selector {
@@ -197,7 +258,7 @@
   .remove-btn {
     background: none;
     border: none;
-    color: #ff4444;
+    color:#000000;
     cursor: pointer;
     margin-top: 10px;
   }
@@ -217,14 +278,13 @@
   .checkout-btn {
     width: 100%;
     padding: 15px;
-    background: #007bff;
+    background: #000000;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
   }
 
-  
   
   .alert {
     padding: 12px;
@@ -244,3 +304,5 @@
     color: #721c24;
     border: 1px solid #f5c6cb;
 }
+
+

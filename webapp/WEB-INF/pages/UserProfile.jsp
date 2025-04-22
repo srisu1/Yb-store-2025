@@ -1,5 +1,3 @@
-
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -11,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Profile</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/modal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @font-face {
             font-family: 'Playfair Display'; 
@@ -319,7 +318,49 @@
 	.section-title{
 	font-family:Playfair Display;
 	}
+	
+	
+	
+	.address-actions-header {
+            margin-bottom: 1rem;
+        }
+        
+        
+        
+        .remove-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            color: #000000;
+            font-size: 1.2rem;
+        }
+        
+        .remove-btn:hover {
+            color: #00000;
+        }
+        
+        #addAddressForm {
+            display: none;
+            margin-top: 1rem;
+        }
+        
+        /* Adjust address card positioning */
+        .address-card {
+            position: relative;
+            padding-right: 2.5rem;
+        }
+        
+        .address-actions {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+        }
 
+		.address-actions-header{
+		background-color: #F3EFE4;
+		
+		}
 
 
         
@@ -383,56 +424,69 @@
                         <label>LANGUAGE PREFERENCES</label>
                         <select class="form-control" name="languagePreference" required>
                             <option value="en" ${user.languagePreference == 'en' ? 'selected' : ''}>ENGLISH</option>
-                            <option value="fr" ${user.languagePreference == 'np' ? 'selected' : ''}>NEPALI</option>
+                            <option value="np" ${user.languagePreference == 'np' ? 'selected' : ''}>NEPALI</option>
                         </select>
                     </div>
                     <div class="section-title">Favourite Genre(s)</div>
-<div class="genre-grid">
-    <div class="genre-item selected">Fiction and Literature</div>
-    <div class="genre-item selected">Technology</div>
-    <div class="genre-item">Business and Investing</div>
-    <div class="genre-item">Arts & Photography</div>
-    <div class="genre-item">Foreign Languages</div>
-    <div class="genre-item">Kids and Teens</div>
-    <div class="genre-item selected">Manga and Graphic Novels</div>
-    <div class="genre-item">Travel</div>
-    <div class="genre-item">Learning and Reference</div>
-</div>
+						<div class="genre-grid">
+						    <div class="genre-item selected">Fiction and Literature</div>
+						    <div class="genre-item selected">Technology</div>
+						    <div class="genre-item">Business and Investing</div>
+						    <div class="genre-item">Arts & Photography</div>
+						    <div class="genre-item">Foreign Languages</div>
+						    <div class="genre-item">Kids and Teens</div>
+						    <div class="genre-item selected">Manga and Graphic Novels</div>
+						    <div class="genre-item">Travel</div>
+						    <div class="genre-item">Learning and Reference</div>
+						</div>
                     
 
                     <div class="section-title">Address Book</div>
                     <div class="address-section">
-                        <c:choose>
-                            <c:when test="${not empty addresses}">
-                                <c:forEach items="${addresses}" var="address">
-                                    <div class="address-card ${addressPreferences.defaultAddressId == address.addressId ? 'default-address' : ''}">
-                                        <p>${address.addressLine}</p>
-                                        <p>${address.city}, ${address.state} ${address.postalCode}</p>
-                                        <p>${address.country}</p>
-                                        <div class="address-actions">
-                                            <form action="${pageContext.request.contextPath}/updateAddressPreferences" method="post">
-                                                <input type="hidden" name="addressId" value="${address.addressId}">
-                                                <button type="submit" name="action" value="setDefault" ${addressPreferences.defaultAddressId == address.addressId ? 'disabled' : ''}>
-                                                    <span class="button_top">Set Default</span>
-                                                </button>
-                                                <button type="submit" name="action" value="setShipping" ${addressPreferences.shippingAddressId == address.addressId ? 'disabled' : ''}>
-                                                    <span class="button_top">Set Shipping</span>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </c:forEach>
-                            </c:when>
-                            <c:otherwise>
-                                <p>No addresses found. Add your first address below.</p>
-                            </c:otherwise>
-                        </c:choose>
-
-                        <div class="section-title">Add New Address</div>
-                        <div class="form-group">
-                            <label>Address Line</label>
-                            <input type="text" name="addressLine" class="form-control" required>
-                        </div>
+			        <div class="address-actions-header">
+			            <button type="button" class="add-address-btn" id="showShippingForm">
+			                <span class="button_top">Add Shipping Address</span>
+			            </button>
+			            <button type="button" class="add-address-btn" id="showDefaultForm">
+			                <span class="button_top">Add Default Address</span>
+			            </button>
+			        </div>
+			
+			        <c:choose>
+			            <c:when test="${not empty addresses}">
+			                <c:forEach items="${addresses}" var="address">
+			                    <div class="address-card ${addressPreferences.defaultAddressId == address.addressId ? 'default-address' : ''}">
+			                        <div class="address-actions">
+			                            <form action="${pageContext.request.contextPath}/deleteAddress" method="post">
+			                                <input type="hidden" name="addressId" value="${address.addressId}">
+			                                <button type="submit" class="remove-btn">
+			                                    <i class="fa-solid fa-trash"></i>
+			                                </button>
+			                            </form>
+			                        </div>
+			                        <div class="address-display">
+			                        
+			                         <p>${address.addressLine}</p>
+			                        <p>${address.city}, ${address.state} ${address.postalCode}</p>
+			                        <p>${address.country}</p>
+			                        
+			                        </div>
+			                       
+			                    </div>
+			                </c:forEach>
+			            </c:when>
+			            <c:otherwise>
+			                <p>No addresses found.</p>
+			            </c:otherwise>
+			        </c:choose>
+			
+			        <!-- Add Address Form (hidden by default) -->
+			        <div id="addAddressForm">
+			            <div class="section-title">Add New Address</div>
+			            <div class="form-group">
+			                <label>Address Line</label>
+			                <input type="text" name="addressLine" class="form-control" required>
+			            </div>
                         <div class="form-group">
                             <label>City</label>
                             <input type="text" name="city" class="form-control" required>
@@ -466,7 +520,7 @@
 
                 <div class="logout-container">
                     <a href="${pageContext.request.contextPath}/logout" class="logout-button">
-                        <span class="button_top">Logout</span>
+                        <span class=" button_top">Logout</span>
                     </a>
                 </div>
             </div>
@@ -521,6 +575,28 @@
             item.addEventListener('click', () => {
                 item.classList.toggle('selected');
             });
+        });
+        
+        
+        
+        
+        
+     // Show/hide address form
+        document.getElementById('showShippingForm').addEventListener('click', function() {
+            const form = document.getElementById('addAddressForm');
+            form.style.display = 'block';
+            document.getElementById('setAsDefault').checked = false;
+        });
+
+        document.getElementById('showDefaultForm').addEventListener('click', function() {
+            const form = document.getElementById('addAddressForm');
+            form.style.display = 'block';
+            document.getElementById('setAsDefault').checked = true;
+        });
+
+        // Hide form when clicking save (assuming page reload)
+        document.querySelector('button[value="saveAddress"]').addEventListener('click', function() {
+            document.getElementById('addAddressForm').style.display = 'none';
         });
     </script>
     

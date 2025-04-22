@@ -127,7 +127,7 @@ img {
     position: absolute;
     z-index:10;
     gap:2rem;
-    letter-spacing: 0px;
+    letter-spacing: -2px;
     
    left:150px;
    bottom:150px;
@@ -352,4 +352,26 @@ img {
     border-radius: 5px;
     display: none;
     font-size: 16px;
+}
+
+.popup-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #f44336; /* Red */
+  color: white;
+  padding: 15px 25px;
+  border-radius: 5px;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: translateY(-20px);
+  font-weight: 500;
+}
+
+.popup-message.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
 }

@@ -144,12 +144,12 @@
     
     <div class="footer-column">
       <h3 class="footer-heading">CONTACT US</h3>
-      <p class="footer-text">Consultation@ohmycream.com<br>+1.01.37; 95.02.33</p>
+      <p class="footer-text">Consultation@yonder.com<br>+977 98629393628</p>
     </div>
     
     <div class="footer-column">
       <h3 class="footer-heading">OUR GIFT</h3>
-      <p class="footer-text">Free book Available for all orders over 65 €.</p>
+      <p class="footer-text">Free book Available for all orders over Rs.5000</p>
     </div>
   </div>
 
@@ -192,9 +192,7 @@
     </div>
   </div>
 
-  <div class="footer-copyright">
-    <p>&copy; 2024 Your Company Name. All rights reserved.</p>
-  </div>
+  
 </footer>
 </body>
 </html>

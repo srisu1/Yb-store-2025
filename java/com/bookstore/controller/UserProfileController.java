@@ -46,7 +46,7 @@ public class UserProfileController extends HttpServlet {
         try {
             User sessionUser = (User) session.getAttribute("user");
             
-            // Refresh user data
+            // Refresh the user data
             User dbUser = userDAO.getUserByEmail(sessionUser.getEmail());
             if (dbUser == null) {
                 throw new SQLException("User not found in database");

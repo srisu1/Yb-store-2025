@@ -10,6 +10,9 @@ public class Book {
     private int bookId;
     private String title;
     private String coverImageUrl;
+    
+    private byte[] bookCoverImage;
+    
     private double price;
     private String description;
     private String isbn;
@@ -57,10 +60,20 @@ public class Book {
     public void setCoverImageUrl(String coverImageUrl) {
         this.coverImageUrl = coverImageUrl;
     }
+    
+    
+    public byte[] getBookCoverImage() {
+        return bookCoverImage;
+    }
+
+    public void setBookCoverImage(byte[] bookCoverImage) {
+        this.bookCoverImage = bookCoverImage;
+    }
 
     public double getPrice() {
         return price;
     }
+    
 
     public void setPrice(double price) {
         this.price = price;
@@ -107,5 +120,6 @@ public class Book {
         this.authors = authors;
     }
 }
+
 
 

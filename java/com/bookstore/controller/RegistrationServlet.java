@@ -113,7 +113,7 @@ public class RegistrationServlet extends HttpServlet {
             fullName,
             email,
             passwordHash,
-            (address != null && !address.isBlank()) ? address : null,
+            
             (phoneNumber != null && !phoneNumber.isBlank()) ? phoneNumber : null,
             (language != null && !language.isBlank()) ? language : null,
             "customer",

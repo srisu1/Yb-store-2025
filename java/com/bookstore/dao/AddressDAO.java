@@ -61,12 +61,11 @@ public class AddressDAO {
         return addresses;
     }
 
-    public boolean deleteAddress(int addressId) throws SQLException {
-        String sql = "DELETE FROM Address WHERE Address_id = ?";
-        try (Connection conn = DbConfig.getDbConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            
+    public boolean deleteAddress(int addressId, int userId, Connection conn) throws SQLException {
+        String sql = "DELETE FROM Address WHERE Address_id = ? AND User_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, addressId);
+            ps.setInt(2, userId);
             return ps.executeUpdate() > 0;
         }
     }

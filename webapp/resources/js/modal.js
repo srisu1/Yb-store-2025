@@ -14,9 +14,17 @@ const cartTrigger = document.getElementById('cartTrigger');
 const cartOverlay = document.getElementById('cartOverlay');
 
 // Show Login Modal
-loginTrigger.addEventListener('click', () => {
-  document.body.classList.add('modal-open');
-  loginOverlay.style.display = 'flex';
+loginTrigger.addEventListener('click', (e) => {
+  e.preventDefault();
+  
+  if (isLoggedIn) {
+    // Redirect to profile if logged in
+    window.location.href = `${contextPath}/redirectToUserProfile`;
+  } else {
+    // Show login modal for guests
+    document.body.classList.add('modal-open');
+    loginOverlay.style.display = 'flex';
+  }
 });
 
 // Show Register Modal
@@ -93,17 +101,24 @@ document.querySelectorAll('.cart-item').forEach(item => {
     
     document.querySelectorAll('.cart-item').forEach(item => {
       if(item.querySelector('input[type="checkbox"]').checked) {
-        const price = parseFloat(item.querySelector('.item-price').textContent.replace('$',''));
+        const price = parseFloat(item.querySelector('.item-price').textContent.replace('Rs',''));
         const quantity = parseInt(item.querySelector('.quantity-input').value);
         total += price * quantity;
       }
     });
   
-    document.querySelector('.total-amount').textContent = `$${total.toFixed(2)}`;
+    document.querySelector('.total-amount').textContent = `${total.toFixed(2)}`;
   }
   
   // Initial calculation
   updateTotals();
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get("showLogin") === "true") {
+    document.body.classList.add('modal-open');
+    loginOverlay.style.display = 'flex';
+  }
+
 
   // Update click outside handling
   [loginOverlay, registerOverlay, searchOverlay].forEach(overlay => {
@@ -138,3 +153,10 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeModal();
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get("showLogin") === "true") {
+    document.body.classList.add('modal-open');
+    loginOverlay.style.display = 'flex';
+  }
+});

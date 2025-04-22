@@ -21,11 +21,11 @@
 		    </c:if>
 		    
             <button class="social-login google">
-            Continue with Google
+            Continue with Google <i class="fa-brands fa-google"></i>
             </button>
            
             
-            <div class="separator">OR</div>
+           <div class="separator">OR</div>
             
             <form action="<%= request.getContextPath() %>/login" method="post">
 			    <div class="form-group">
@@ -137,7 +137,7 @@
     <div class="modal-overlay" id="cartOverlay">
         <div class="cart-modal">
         <div class="cart-header">
-            <h2>Your Cart</h2>
+            <h2>Your basket</h2>
             <span class="close-btn">&times;</span>
         </div>
         
@@ -150,8 +150,9 @@
                 <span class="checkmark"></span>
                 </label>
                 <div class="item-details">
-                <h3 class="item-title">The Great Novel</h3>
-                <p class="item-price">$19.99</p>
+                <h3 class="item-title">The Emerald Groove</h3>
+                <img src="https://i.pinimg.com/736x/5b/5e/4b/5b5e4b2ba440dfb200abb0060acdf19c.jpg" alt="Book Cover" />
+                <p class="item-price">Rs. 1200</p>
                 </div>
             </div>
             <div class="item-controls">
@@ -170,8 +171,7 @@
             <span>Total:</span>
             <span class="total-amount">$19.99</span>
             </div>
-            <button class="checkout-btn">Proceed to Checkout</button>
+            <button class="checkout-btn">BUY</button>
         </div>
         </div>
     </div>
-

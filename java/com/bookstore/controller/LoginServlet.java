@@ -39,6 +39,16 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 System.out.println("Session created for user: " + user.getEmail());
                 session.setAttribute("user", user);
+                
+                
+             //setting a cookie after a successful login 
+                Cookie userLoggedIn = new Cookie("userLoggedIn", "true");
+                userLoggedIn.setMaxAge(60 * 60 * 24); // 1 day
+                userLoggedIn.setPath("/"); // Set the path for the entire domain
+                response.addCookie(userLoggedIn);
+                
+                System.out.println("Cookie set: " + userLoggedIn.getName() + "=" + userLoggedIn.getValue());
+
                
 
                 // Handle remember-me cookie

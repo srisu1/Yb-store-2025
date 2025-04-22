@@ -43,7 +43,7 @@ public class AuthenticationFilter implements Filter {
             return;
         }
 
-        // 3) About/Contacts/Catalogue (remember to uncomment when JSPs exist)
+        // 3) About/Contacts/Catalogue (remember to uncomment when JSPs is completed)
         // if (uri.endsWith("/about"))     { chain.doFilter(rq,rs); return; }
         // if (uri.endsWith("/contacts"))  { chain.doFilter(rq,rs); return; }
         // if (uri.endsWith("/catalogue")) { chain.doFilter(rq,rs); return; }

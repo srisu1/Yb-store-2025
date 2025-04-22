@@ -46,6 +46,7 @@ body {
   width: clamp(80px, 10vw, 180px);
   height: auto;
   aspect-ratio: 1/1;
+  
  
 }
 
@@ -183,6 +184,20 @@ body {
   }
 }
 
+
+
+lottie-player {
+  color: var(--theme-text);
+  transition: color 0.5s ease !important;
+}
+
+lottie-player path {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+
+
 </style>
 
 <script>
@@ -214,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	 <header class="Header">
 
 
-        <a href="<%= request.getContextPath() %>/" class="logo">
+       <a href="<%= request.getContextPath() %>/" class="logo">
   <div id="logo-animation" style="width: clamp(80px, 10vw, 180px); height: auto;"></div>
 </a>
 
@@ -374,4 +389,3 @@ document.addEventListener('DOMContentLoaded', function () {
 	
 
 </body>
-</html>
