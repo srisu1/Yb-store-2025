@@ -14,9 +14,9 @@ public class AuthenticationFilter implements Filter {
     @Override
     public void doFilter(ServletRequest rq, ServletResponse rs, FilterChain chain)
             throws IOException, ServletException {
-        HttpServletRequest  req  = (HttpServletRequest)  rq;
-        HttpServletResponse res  = (HttpServletResponse) rs;
-        String uri     = req.getRequestURI();
+        HttpServletRequest req = (HttpServletRequest) rq;
+        HttpServletResponse res = (HttpServletResponse) rs;
+        String uri = req.getRequestURI();
         String context = req.getContextPath();
 
         // 0) Try remember‑me cookie
@@ -24,29 +24,33 @@ public class AuthenticationFilter implements Filter {
 
         // 1) Static assets
         if (uri.startsWith(context + "/resources/") 
-         || uri.endsWith(".css") 
-         || uri.endsWith(".js") 
-         || uri.endsWith(".png") 
-         || uri.endsWith(".jpg")) {
-            chain.doFilter(rq,rs);
+                || uri.endsWith(".css") 
+                || uri.endsWith(".js") 
+                || uri.endsWith(".png") 
+                || uri.endsWith(".jpg")) {
+            chain.doFilter(rq, rs);
             return;
         }
 
         // 2) PUBLIC: login, register, home, userprofile
-        if ( uri.endsWith("/login")
-          || uri.endsWith("/register")
-          || uri.endsWith("/")       // context root
-          || uri.endsWith("/home")
-          || uri.endsWith("/userprofile")
+        if (uri.endsWith("/login")
+                || uri.endsWith("/register")
+                || uri.endsWith("/")       // context root
+                || uri.endsWith("/home")
+                || uri.endsWith("/userprofile")
         ) {
-            chain.doFilter(rq,rs);
+            chain.doFilter(rq, rs);
             return;
         }
 
-        // 3) About/Contacts/Catalogue (remember to uncomment when JSPs is completed)
-        // if (uri.endsWith("/about"))     { chain.doFilter(rq,rs); return; }
-        // if (uri.endsWith("/contacts"))  { chain.doFilter(rq,rs); return; }
-        // if (uri.endsWith("/catalogue")) { chain.doFilter(rq,rs); return; }
+        // 3) Other public paths (about, contact, bookdetails, catalogue)
+        if (uri.endsWith("/about")     
+                || uri.endsWith("/contact")  
+                || uri.endsWith("/bookdetails") // Allow public access to book details
+                || uri.endsWith("/catalogue")) {
+            chain.doFilter(rq, rs);
+            return;
+        }
 
         // 4) All others require login
         if (!SessionUtil.isUserLoggedIn(req)) {
@@ -58,7 +62,7 @@ public class AuthenticationFilter implements Filter {
         boolean isAdmin = SessionUtil.isUserAdmin(req);
         if (uri.startsWith(context + "/admin")) {
             if (isAdmin) {
-                chain.doFilter(rq,rs);
+                chain.doFilter(rq, rs);
             } else {
                 res.sendRedirect(context + "/home");
             }
@@ -66,7 +70,7 @@ public class AuthenticationFilter implements Filter {
         }
 
         // 6) Everything else (cart, checkout, etc.)
-        chain.doFilter(rq,rs);
+        chain.doFilter(rq, rs);
     }
     // init() + destroy() no‑ops…
 }
