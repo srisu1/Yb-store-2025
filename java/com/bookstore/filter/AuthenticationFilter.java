@@ -47,7 +47,7 @@ public class AuthenticationFilter implements Filter {
         if (uri.endsWith("/about")     
                 || uri.endsWith("/contact")  
                 || uri.endsWith("/bookdetails") // Allow public access to book details
-                || uri.endsWith("/catalogue")) {
+                || uri.endsWith("/catalog")) {
             chain.doFilter(rq, rs);
             return;
         }

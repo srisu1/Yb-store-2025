@@ -1,6 +1,11 @@
 package com.bookstore.dao;
 
 import com.bookstore.config.DbConfig;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import com.bookstore.model.User;
 import java.sql.*;
 import java.util.ArrayList;
@@ -151,6 +156,23 @@ public class UserDAO {
             return ps.executeUpdate() > 0;
         }
     }
+    
+    public String getProfilePictureUrlByUserId(int userId) throws SQLException {
+        String sql = "SELECT profilePictureUrl FROM users WHERE userId = ?";
+        
+        try (Connection connection = DbConfig.getDbConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("profilePictureUrl");
+                }
+            }
+        }
+        
+        return null; // Return null if no URL is found
+    }
+   
 
 
 
@@ -176,4 +198,7 @@ public class UserDAO {
             return null;
         }
     }
+    
+   
+
 }

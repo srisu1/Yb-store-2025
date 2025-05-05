@@ -21,6 +21,10 @@ public class Book {
 
     //  List to hold multiple authors for this book
     private List<Author> authors;
+    
+    public Book() {
+        // Required for JSP EL and servlet operations
+    }
 
     // Constructor (without authors, authors can be set later using setter)
     public Book(int bookId, String title, String coverImageUrl, double price, String description, String isbn,
@@ -119,6 +123,16 @@ public class Book {
     public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
-}
+    
+    private List<Category> categories;
 
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+}
 

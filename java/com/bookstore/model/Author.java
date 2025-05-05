@@ -1,6 +1,6 @@
 package com.bookstore.model;
 
-
+import java.util.Objects;
 
 public class Author {
     private int authorId;
@@ -47,6 +47,19 @@ public class Author {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj) return true;
+	    if (obj == null || getClass() != obj.getClass()) return false;
+	    Author author = (Author) obj;
+	    return authorId == author.authorId;
+	}
+
+	@Override
+	public int hashCode() {
+	    return Objects.hash(authorId);
+	}
+
 	
 	
 

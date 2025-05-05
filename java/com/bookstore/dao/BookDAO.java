@@ -467,6 +467,163 @@ public class BookDAO {
             }
         }
     }
+    
+    
+    
+    
+    
+ // In BookDAO.java
+    public List<Book> getPaginatedBooks(int page, int size) throws SQLException, ClassNotFoundException {
+        Connection connection = DbConfig.getDbConnection();
+        int offset = (page - 1) * size;
+        String sql = "SELECT b.Book_id, b.Book_Title, b.Book_coverimageurl, b.Book_price, " +
+                     "b.Book_description, b.Book_isbn, b.Publication_date, b.Book_stockquantity, " +
+                     "a.Author_id, a.Author_name, c.Category_id, c.Category_name " +
+                     "FROM Books b " +
+                     "LEFT JOIN Author_Book ab ON b.Book_id = ab.Book_id " +
+                     "LEFT JOIN Author a ON ab.Author_id = a.Author_id " +
+                     "LEFT JOIN Book_Category bc ON b.Book_id = bc.Book_id " +
+                     "LEFT JOIN Category c ON bc.Category_id = c.Category_id " +
+                     "ORDER BY b.Publication_date DESC " +
+                     "LIMIT ? OFFSET ?";
+
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setInt(1, size);
+        ps.setInt(2, offset);
+        ResultSet rs = ps.executeQuery();
+
+        Map<Integer, Book> bookMap = new HashMap<>();
+        while (rs.next()) {
+            int bookId = rs.getInt("Book_id");
+            Book book = bookMap.get(bookId);
+
+            if (book == null) {
+                book = new Book(
+                    bookId,
+                    rs.getString("Book_Title"),
+                    rs.getString("Book_coverimageurl"),
+                    rs.getDouble("Book_price"),
+                    rs.getString("Book_description"),
+                    rs.getString("Book_isbn"),
+                    rs.getDate("Publication_date"),
+                    rs.getInt("Book_stockquantity")
+                );
+                book.setAuthors(new ArrayList<>());
+                book.setCategories(new ArrayList<>());
+                bookMap.put(bookId, book);
+            }
+
+            // Add authors
+            int authorId = rs.getInt("Author_id");
+            if (authorId > 0) {
+                Author author = new Author(
+                    authorId,
+                    rs.getString("Author_name"),
+                    "", ""
+                );
+                if (!book.getAuthors().contains(author)) {
+                    book.getAuthors().add(author);
+                }
+            }
+
+            // Add categories
+            int categoryId = rs.getInt("Category_id");
+            if (categoryId > 0) {
+                Category category = new Category(
+                    categoryId,
+                    rs.getString("Category_name")
+                );
+                if (!book.getCategories().contains(category)) {
+                    book.getCategories().add(category);
+                }
+            }
+        }
+
+        rs.close();
+        ps.close();
+        connection.close();
+
+        return new ArrayList<>(bookMap.values());
+    }
+
+    public int getTotalBookCount() throws SQLException, ClassNotFoundException {
+        Connection connection = DbConfig.getDbConnection();
+        String sql = "SELECT COUNT(*) FROM Books";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int count = rs.getInt(1);
+        
+        rs.close();
+        ps.close();
+        connection.close();
+        
+        return count;
+    }
+    
+    
+ // In BookDAO.java
+    public List<Book> searchBooks(String query, int page, int size) throws SQLException, ClassNotFoundException {
+        Connection connection = DbConfig.getDbConnection();
+        int offset = (page - 1) * size;
+        
+        String sql = "SELECT b.* FROM Books b WHERE " +
+                     "b.Book_id LIKE ? OR " +
+                     "LOWER(b.Book_Title) LIKE LOWER(?) OR " +
+                     "LOWER(b.Book_isbn) LIKE LOWER(?) " +
+                     "ORDER BY b.Publication_date DESC " +
+                     "LIMIT ? OFFSET ?";
+
+        PreparedStatement ps = connection.prepareStatement(sql);
+        String searchTerm = "%" + query + "%";
+        ps.setString(1, searchTerm);
+        ps.setString(2, searchTerm);
+        ps.setString(3, searchTerm);
+        ps.setInt(4, size);
+        ps.setInt(5, offset);
+
+        ResultSet rs = ps.executeQuery();
+        List<Book> books = new ArrayList<>();
+
+        while (rs.next()) {
+            Book book = mapResultSetToBook(rs);
+            book.setCategories(getCategoriesForBook(connection, book.getBookId()));
+            books.add(book);
+        }
+
+        rs.close();
+        ps.close();
+        connection.close();
+
+        return books;
+    }
+
+    public int getSearchCount(String query) throws SQLException, ClassNotFoundException {
+        Connection connection = DbConfig.getDbConnection();
+        String sql = "SELECT COUNT(*) FROM Books WHERE " +
+                     "Book_id LIKE ? OR " +
+                     "LOWER(Book_Title) LIKE LOWER(?) OR " +
+                     "LOWER(Book_isbn) LIKE LOWER(?)";
+        
+        PreparedStatement ps = connection.prepareStatement(sql);
+        String searchTerm = "%" + query + "%";
+        ps.setString(1, searchTerm);
+        ps.setString(2, searchTerm);
+        ps.setString(3, searchTerm);
+        
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int count = rs.getInt(1);
+        
+        rs.close();
+        ps.close();
+        connection.close();
+        
+        return count;
+    }
+    
+  
 }
+    
     
    
