@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -196,196 +197,177 @@ lottie-player path {
   stroke: currentColor !important;
 }
 
+/* Container for the books-of-week images */
+.Drop-Down-Middle-Portion-Books-Of-The-Week-Pictures {
+    display: flex;
+    gap: 10px; /* Space between images */
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+/* Individual list items */
+.Drop-Down-Middle-Portion-Books-Of-The-Week-Pictures li {
+    flex: 1; /* Distribute space equally */
+    max-width: 100px; /* Adjust based on your needs */
+}
+
+/* Image styling */
+.weekly-book-image {
+    width: 100%; /* Fill container width */
+    height: 150px; /* Fixed height */
+    object-fit: cover; /* Prevent distortion */
+    border-radius: 4px; /* Optional */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional */
+}
 
 
 </style>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const toggleBtn = document.querySelector('.menu-toggle');
-  const navbar = document.querySelector('.Navbar');
-  const iconList = document.querySelector('.icon-list');
 
-  toggleBtn.addEventListener('click', function (e) {
-    e.stopPropagation();
-    navbar.classList.toggle('active');
-    iconList.classList.toggle('active');
-  });
-
-  document.addEventListener('click', function (e) {
-    if (!e.target.closest('.Icons') && !e.target.closest('.Navbar')) {
-      navbar.classList.remove('active');
-      iconList.classList.remove('active');
-    }
-  });
-});
-</script>
 
 
 
 </head>
 <body>
 
-	 <header class="Header">
+<header class="Header">
 
+    <a href="<%= request.getContextPath() %>/" class="logo">
+        <div id="logo-animation" style="width: clamp(80px, 10vw, 180px); height: auto;"></div>
+    </a>
 
-       <a href="<%= request.getContextPath() %>/" class="logo">
-  <div id="logo-animation" style="width: clamp(80px, 10vw, 180px); height: auto;"></div>
-</a>
-
-
-
-
-      
-
-
-
-
-        <!-- Navbar starts here -->
-        <div class="Navbar">
-            <ul class="Navbar-Options" style="list-style: none;">
-
-                <!-- Drop-Down from books start here -->
-                <li class="Books-Drop-Down-List">
-                    <a href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        BOOKS <i class="fa-solid fa-chevron-down"></i>
-                    </a>
-                    <!-- Container that contails the full drop down menu after clicking on book starts here -->
-                    <section class="Drop-Down-List-Container"  aria-label="Books submenu">
-
-                        <div class="Genre_Drop-Down">
-                            <ul class="Genre_Drop-Down-Options" style="list-style: none;">
-                                <li><a href="#">Fiction</a></li>
-                                <li><a href="#">Kids</a></li>
-                                <li><a href="#">Languages</a></li>
-                                <li><a href="#">Business</a></li>
-                                <li><a href="#">Travel</a></li>
-                                <li><a href="#">Manga</a></li>
-                                <li><a href="#">Learning</a></li>
-                                <li><a href="#">Technology</a></li>
-                                <li><a href="#">Photography</a></li>
-                            
-                            </ul>
-
-
-                        </div>
-
-                        <div class="Drop-Down-Middle-Portion">
-
-                            <ul class="Drop-Down-Middle-Portion-Top" style="list-style: none;">
-
-                                <li><a href="#">Best Seller</a></li>
-                                <li><a href="#">New Arrival</a></li>
-                                <li><a href="#">Popular</a></li>
-                                
-
-                            </ul>
-
-                            <div class="Drop-Down-Middle-Portion-Books-Of-The-Week">
-
-                                <h5 class="Drop-Down-Middle-Portion-Heading"> Books Of The Week</h5>
-                                <ul class="Drop-Down-Middle-Portion-Books-Of-The-Week-Pictures" style="list-style: none;">
-
-                                    <li><a href="#"><img src="img1.png" alt=""></a></li>
-                                    <li><a href="#"><img src="img2.png" alt=""></a></li>
-                                    <li><a href="#"><img src="img3.png" alt=""></a></li>
-                                    <li><a href="#"><img src="img4.png" alt=""></a></li>
-
-
-
-                                </ul>
-
-                            </div>
-
-
-                        </div>
-
-                        <div class="Drop-Down-Others">
-                            <h6>Others</h6>
-
-
-                            <ul class="Drop-Down-Others-Options" style="list-style: none;">
-                                <li><a href="#">Bundle Deals</a></li>
-                                <li><a href="#">Used Books</a></li>
-                                <li><a href="#">Wishlist</a></li>
-                                <li><a href="#">Book Request</a></li>
-                               
-                            </ul>
-
-                        </div>
-
-
-                    </section>
-
-                </li>
-                <!-- Drop-Down from books ends here -->
-
-                <li><a href="#">DEALS</a></li>
-                <li><a href="#">ABOUT</a></li>
-                <li><a href="#">CONTACT</a></li>
-                
-            
-            </ul>
-
-
-        </div>
-        <!-- Navbar ends here -->
-
-        <!-- Icons starts here -->
-        <div class="Icons">
-                <a href="javascript:void(0);" class="menu-toggle">
-                    <i class="fa fa-bars"></i>
+    <!-- Navbar starts here -->
+    <div class="Navbar">
+        <ul class="Navbar-Options" style="list-style: none;">
+            <!-- Drop-Down from books start here -->
+            <li class="Books-Drop-Down-List">
+                <a href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    BOOKS <i class="fa-solid fa-chevron-down"></i>
                 </a>
-
-            <ul class="icon-list"  style="list-style: none;">
-                        <li>
-                          <a href="#" id="loginTrigger">
-	                       <lord-icon src="${pageContext.request.contextPath}/resources//icons/wired-outline-21-avatar-hover-looking-around.json"
-					           trigger="loop" 
-					           style="width:30px;height:30px">
-					       </lord-icon>
-	                      </a>
-                        </li>
-                        <li>
-                          <a href="#" id="searchTrigger">
-	                       <lord-icon src="${pageContext.request.contextPath}/resources//icons/wired-outline-19-magnifier-zoom-search-hover-spin-2.json"
-					           trigger="loop" 
-					           delay="2000"
-					           style="width:30px;height:30px">
-					       </lord-icon>
-	                      </a>
-                        </li>
-                         <li>
-                          <a href="#">
-	                       <lord-icon src="${pageContext.request.contextPath}/resources//icons/wired-outline-20-love-heart-morph-glitter.json"
-					           trigger="hover" 
-					           style="width:30px;height:30px">
-					       </lord-icon>
-	                      </a>
-                        </li>
-                        <li>
-                          <a href="#" id="cartTrigger">
-	                       <lord-icon src="${pageContext.request.contextPath}/resources//icons/wired-outline-139-basket-morph-fill.json"
-					           trigger="hover" 
-					           style="width:30px;height:30px">
-					       </lord-icon>
-	                      </a>
-                        </li>
+                <section class="Drop-Down-List-Container" aria-label="Books submenu">
+                    <div class="Genre_Drop-Down">
+                        <h6 class="dropdown-section-header">Categories</h6>
+                        <ul class="Genre_Drop-Down-Options" style="list-style: none;">
+                            <c:forEach items="${categories}" var="category">
+                                <li><a href="catalog?categoryId=${category.categoryId}" class="dropdown-link" data-category-id="${category.categoryId}">
+                                    ${category.categoryName}
+                                </a></li>
+                            </c:forEach>
+                        </ul>
                         
                        
-                        
-                      </ul>
-            </div>
+						
+                    </div>
 
-        </div>
-        <!-- Icons ends here -->
+                    <div class="Drop-Down-Middle-Portion">
+                        <div class="Drop-Down-Middle-Portion-Top">
+                            <h6 class="dropdown-section-header">Quick Links</h6>
+                            <ul class="Drop-Down-Middle-Portion-Top" style="list-style: none;">
+                                <li><a href="catalog?filter=bestSeller" class="dropdown-link">Best Sellers</a></li>
+                                <li><a href="catalog?filter=newArrivals" class="dropdown-link">New Arrivals</a></li>
+                                <li><a href="catalog?filter=popular" class="dropdown-link">Popular</a></li>
+                            </ul>
+                        </div>
 
+                        <div class="Drop-Down-Middle-Portion-Books-Of-The-Week">
+                            <h5 class="Drop-Down-Middle-Portion-Heading">Books Of The Week</h5>
+                            <ul class="Drop-Down-Middle-Portion-Books-Of-The-Week-Pictures" style="list-style: none;">
+                                <!-- Dynamic Books of the Week -->
+                                <c:forEach items="${booksOfWeek}" var="book" end="3">
+                                    <li>
+                                        <a href="bookdetails?id=${book.bookId}">
+                                            <img src="${book.coverImageUrl}" alt="${book.title} cover" class="weekly-book-image">
+                                        </a>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                    </div>
 
+                    <div class="Drop-Down-Others">
+                        <h6 class="dropdown-section-header">Other Services</h6>
+                        <ul class="Drop-Down-Others-Options" style="list-style: none;">
+                            <li><a href="bundle-deals" class="dropdown-link">Bundle Deals</a></li>
+                            <li><a href="used-books" class="dropdown-link">Used Books</a></li>
+                            <li><a href="wishlist" class="dropdown-link">Wishlist</a></li>
+                            <li><a href="book-request" class="dropdown-link">Book Request</a></li>
+                        </ul>
+                    </div>
+                </section>
+            </li>
+            <!-- Drop-Down from books ends here -->
 
+            <li><a href="#">DEALS</a></li>
+            <li><a href="${pageContext.request.contextPath}/pages/about">ABOUT</a></li>
+            <li><a href="${pageContext.request.contextPath}/pages/contact">CONTACT</a></li>
+        </ul>
+    </div>
+    <!-- Navbar ends here -->
 
+    <!-- Icons starts here -->
+    <div class="Icons">
+        <a href="javascript:void(0);" class="menu-toggle">
+            <i class="fa fa-bars"></i>
+        </a>
 
-    </header>
-    <!-- Header section ends -->
+        <ul class="icon-list" style="list-style: none;">
+            <li>
+                <a href="#" id="loginTrigger">
+                    <lord-icon src="${pageContext.request.contextPath}/resources/icons/wired-outline-21-avatar-hover-looking-around.json"
+                        trigger="loop" style="width:30px;height:30px">
+                    </lord-icon>
+                </a>
+            </li>
+            <li>
+                <a href="#" id="searchTrigger">
+                    <lord-icon src="${pageContext.request.contextPath}/resources/icons/wired-outline-19-magnifier-zoom-search-hover-spin-2.json"
+                        trigger="loop" delay="2000" style="width:30px;height:30px">
+                    </lord-icon>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <lord-icon src="${pageContext.request.contextPath}/resources/icons/wired-outline-20-love-heart-morph-glitter.json"
+                        trigger="hover" style="width:30px;height:30px">
+                    </lord-icon>
+                </a>
+            </li>
+            <li>
+                <a href="#" id="cartTrigger">
+                    <lord-icon src="${pageContext.request.contextPath}/resources/icons/wired-outline-139-basket-morph-fill.json"
+                        trigger="hover" style="width:30px;height:30px">
+                    </lord-icon>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- Icons ends here -->
+
+</header>
+<!-- Header section ends -->
+
+	    <script>
+	document.addEventListener('DOMContentLoaded', function () {
+	  const toggleBtn = document.querySelector('.menu-toggle');
+	  const navbar = document.querySelector('.Navbar');
+	  const iconList = document.querySelector('.icon-list');
+	
+	  toggleBtn.addEventListener('click', function (e) {
+	    e.stopPropagation();
+	    navbar.classList.toggle('active');
+	    iconList.classList.toggle('active');
+	  });
+	
+	  document.addEventListener('click', function (e) {
+	    if (!e.target.closest('.Icons') && !e.target.closest('.Navbar')) {
+	      navbar.classList.remove('active');
+	      iconList.classList.remove('active');
+	    }
+	  });
+	});
+	</script>
 	
 
 </body>
+</html>
