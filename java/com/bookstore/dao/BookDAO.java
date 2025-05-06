@@ -79,32 +79,35 @@ public class BookDAO {
 	    ps.close();
 	    connection.close();
 
-	    System.out.println("DEBUG: Found " + bookMap.size() + " books");
+	   
 	    return new ArrayList<>(bookMap.values());
 	}
 
 	// Adding these methods home.jsp
 	public List<Book> getBooksOfTheWeek() throws SQLException, ClassNotFoundException {
-	    Connection connection = DbConfig.getDbConnection();
-	    String query = "SELECT b.Book_id, b.Book_Title, b.Book_coverimageurl, " + // Explicitly include cover
+	    String query = "SELECT b.Book_id, b.Book_Title, b.Book_coverimageurl, " +
 	                   "b.Book_price, b.Book_description, b.Book_isbn, " +
 	                   "b.Publication_date, b.Book_stockquantity " +
 	                   "FROM Books b " +
 	                   "ORDER BY b.weekly_views DESC, b.publication_date DESC " +
 	                   "LIMIT 4";
 	    
-	    try (PreparedStatement ps = connection.prepareStatement(query)) {
-	        ResultSet rs = ps.executeQuery();
-	        List<Book> books = new ArrayList<>();
+	    List<Book> books = new ArrayList<>();
+
+	    try (Connection connection = DbConfig.getDbConnection();
+	         PreparedStatement ps = connection.prepareStatement(query);
+	         ResultSet rs = ps.executeQuery()) {
 	        
 	        while (rs.next()) {
 	            Book book = mapResultSetToBook(rs);
 	            book.setCategories(getCategoriesForBook(connection, book.getBookId()));
 	            books.add(book);
 	        }
-	        return books;
 	    }
+	    
+	    return books;
 	}
+
 
 	// Updating existing getNewArrivals to use proper SQL
 	public List<Book> getNewArrivals() throws SQLException, ClassNotFoundException {
@@ -624,6 +627,5 @@ public class BookDAO {
     
   
 }
-    
     
    

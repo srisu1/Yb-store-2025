@@ -27,7 +27,7 @@ public class CategoryDAO {
             }
         }
 
-        System.out.println("DEBUG: Found " + categories.size() + " categories");
+       
         return categories;
     }
 

@@ -330,6 +330,35 @@
 		background-color: #F3EFE4;
 		
 		}
+		
+
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 12px;
+  background-color: #F4EFE3;
+}
+
+#showAddressForm {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 12px;
+  background-color: #000000;
+  color: white;
+}
+button {
+width: 100%;
+padding: 12px;
+border: 1px solid black;
+border-radius: 5px;
+margin-bottom: 12px;
+background-color: #000000;
+color: white;
+}	
 
 
         
