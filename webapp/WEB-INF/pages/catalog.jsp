@@ -163,7 +163,7 @@
         button:hover {
             background: #eee;
         }
-        /* Add these styles to your existing CSS */
+       
 		.book-card {
 		    background: white;
 		    padding: 15px;
@@ -226,8 +226,12 @@
 		        <c:when test="${not empty books}">
 		            <c:forEach var="book" items="${books}">
 		                <div class="book-card">
-		                    <img src=<c:url value='${book.coverImageUrl}' /> alt="${book.title}" 
+		                	<a href="bookdetails?id=${book.bookId}">
+		                		<img src=<c:url value='${book.coverImageUrl}' /> alt="${book.title}" 
 		                         style="width: 100%; height: 200px; object-fit: cover;">
+		                	
+		                	 </a>
+		                    
 		                    <div class="book-title">${book.title}</div>
 		                    <div class="book-author">
 		                        <c:forEach items="${book.authors}" var="author" varStatus="loop">

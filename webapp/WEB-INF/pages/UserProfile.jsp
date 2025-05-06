@@ -240,38 +240,7 @@
             border-top: 2px solid #eee;
         }
 
-        /* Button styles */
-        button {
-            --button_radius: 0.75em;
-            --button_color: #E8DFC9;
-            --button_outline_color: #000000;
-            font-size: 17px;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            border-radius: var(--button_radius);
-            background: var(--button_outline_color);
-        }
-
-        .button_top {
-            display: block;
-            box-sizing: border-box;
-            border: 2px solid var(--button_outline_color);
-            border-radius: var(--button_radius);
-            padding: 0.75em 1.5em;
-            background: var(--button_color);
-            color: var(--button_outline_color);
-            transform: translateY(-0.2em);
-            transition: transform 0.1s ease;
-        }
-
-        button:hover .button_top {
-            transform: translateY(-0.33em);
-        }
-
-        button:active .button_top {
-            transform: translateY(0);
-        }
+    
 
         @media (max-width: 768px) {
             .profile-main-content {
@@ -368,238 +337,151 @@
     </style>
 </head>
 <body>
-    <jsp:include page="/includes/HeaderOtherPages.jsp" />
-    <div class="profile-container">
-        <div class="profile-main-content">
-            <!-- Left Column -->
-            <div class="profile-left">
-                <div class="profile-header">
-                    <div class="profile-pic-container">
-                        <div class="profile-overlay">
-                            <i class="fa-solid fa-arrow-up-from-bracket upload-icon"></i>
-                            <span class="upload-instruction">Upload Profile Picture</span>
-                        </div>
-                        <img src="${pageContext.request.contextPath}/userImage?id=${user.userId}" 
-                            class="profile-pic" 
-                            id="profilePreview"
-                            onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><rect width=\"100%\" height=\"100%\" fill=\"%23cccccc\"/><text x=\"50%\" y=\"50%\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-size=\"40\" fill=\"%23ffffff\">${fn:substring(user.fullName,0,1)}</text></svg>'">
-                        <button type="button" class="upload-btn">
-                            <span class="button_top"></span>
-                            <input type="file" id="profileUpload" name="profileImage" accept="image/*" hidden>
-                        </button>
-                    </div>
+<jsp:include page="/includes/HeaderOtherPages.jsp" />
+<div class="profile-container">
+    <div class="profile-main-content">
+        <!-- Left Column -->
+        <div class="profile-left">
+        
+            <form id="profileForm" action="${pageContext.request.contextPath}/updateProfile" method="POST" enctype="multipart/form-data">
+                <div class="profile-pic-container">
+				    <div class="profile-overlay">
+				        <i class="fa-solid fa-arrow-up-from-bracket upload-icon"></i>
+				        <span class="upload-instruction">Upload Profile Picture</span>
+				    </div>
+				    <!-- Updated image tag -->
+				    <img src="${user.profilePictureUrl}" 
+				         class="profile-pic" 
+				         id="profilePreview"
+				         onerror="this.src='${pageContext.request.contextPath}/path_to_default_image.jpg'">
+				    <input type="file" id="profileUpload" name="profileImage" accept="image/*" hidden>
+				</div>
+
                     <div class="profile-info">
                         <h1>${user.fullName}</h1>
                         <p>${user.email}</p>
                     </div>
                 </div>
-            </div>
 
-            <!-- Right Column -->
-            <div class="profile-right">
-                <c:if test="${not empty errorMessage}">
-                    <div class="error-message">${errorMessage}</div>
-                </c:if>
+                <!-- Right Column -->
+                <div class="profile-right">
+                    <c:if test="${not empty errorMessage}">
+                        <div class="error-message">${errorMessage}</div>
+                    </c:if>
 
-                <form id="profileForm" action="${pageContext.request.contextPath}/updateProfile" 
-                    method="POST" enctype="multipart/form-data">
-                    
-                    
-                    
+                    <input type="hidden" name="selectedGenres" id="selectedGenres">
                     <div class="form-group">
-                    
-                    	<h1>Account Settings</h1>
-                    	<p>Here, you can see and manage your info and activities.</p>
-                    	
+                        <h1>Account Settings</h1>
+                        <p>Manage your info and preferences.</p>
                         <label>FULL NAME</label>
-                        <input type="text" class="form-control" name="fullName" value="${user.fullName}" required>
+                        <input type="text" name="fullName" value="${user.fullName}" required>
                     </div>
 
                     <div class="form-group">
                         <label>PHONE NUMBER</label>
-                        <input type="tel" class="form-control" name="phone" value="${user.phoneNumber}" required>
+                        <input type="tel" name="phone" value="${user.phoneNumber}" required>
                     </div>
 
                     <div class="form-group">
-                        <label>LANGUAGE PREFERENCES</label>
-                        <select class="form-control" name="languagePreference" required>
-                            <option value="en" ${user.languagePreference == 'en' ? 'selected' : ''}>ENGLISH</option>
-                            <option value="np" ${user.languagePreference == 'np' ? 'selected' : ''}>NEPALI</option>
+                        <label>LANGUAGE PREFERENCE</label>
+                        <select name="languagePreference" required>
+                            <option value="en" ${user.languagePreference == 'en' ? 'selected' : ''}>English</option>
+                            <option value="np" ${user.languagePreference == 'np' ? 'selected' : ''}>Nepali</option>
                         </select>
                     </div>
+
                     <div class="section-title">Favourite Genre(s)</div>
-						<div class="genre-grid">
-						    <div class="genre-item selected">Fiction and Literature</div>
-						    <div class="genre-item selected">Technology</div>
-						    <div class="genre-item">Business and Investing</div>
-						    <div class="genre-item">Arts & Photography</div>
-						    <div class="genre-item">Foreign Languages</div>
-						    <div class="genre-item">Kids and Teens</div>
-						    <div class="genre-item selected">Manga and Graphic Novels</div>
-						    <div class="genre-item">Travel</div>
-						    <div class="genre-item">Learning and Reference</div>
-						</div>
-                    
+                    <div class="genre-grid">
+                        <c:forEach var="genre" items="${allGenres}">
+                            <div class="genre-item ${user.genres.contains(genre) ? 'selected' : ''}">${genre}</div>
+                        </c:forEach>
+                    </div>
 
                     <div class="section-title">Address Book</div>
                     <div class="address-section">
-			        <div class="address-actions-header">
-			            <button type="button" class="add-address-btn" id="showShippingForm">
-			                <span class="button_top">Add Shipping Address</span>
-			            </button>
-			            <button type="button" class="add-address-btn" id="showDefaultForm">
-			                <span class="button_top">Add Default Address</span>
-			            </button>
-			        </div>
-			
-			        <c:choose>
-			            <c:when test="${not empty addresses}">
-			                <c:forEach items="${addresses}" var="address">
-			                    <div class="address-card ${addressPreferences.defaultAddressId == address.addressId ? 'default-address' : ''}">
-			                        <div class="address-actions">
-			                            <form action="${pageContext.request.contextPath}/deleteAddress" method="post">
-			                                <input type="hidden" name="addressId" value="${address.addressId}">
-			                                <button type="submit" class="remove-btn">
-			                                    <i class="fa-solid fa-trash"></i>
-			                                </button>
-			                            </form>
-			                        </div>
-			                        <div class="address-display">
-			                        
-			                         <p>${address.addressLine}</p>
-			                        <p>${address.city}, ${address.state} ${address.postalCode}</p>
-			                        <p>${address.country}</p>
-			                        
-			                        </div>
-			                       
-			                    </div>
-			                </c:forEach>
-			            </c:when>
-			            <c:otherwise>
-			                <p>No addresses found.</p>
-			            </c:otherwise>
-			        </c:choose>
-			
-			        <!-- Add Address Form (hidden by default) -->
-			        <div id="addAddressForm">
-			            <div class="section-title">Add New Address</div>
-			            <div class="form-group">
-			                <label>Address Line</label>
-			                <input type="text" name="addressLine" class="form-control" required>
-			            </div>
-                        <div class="form-group">
-                            <label>City</label>
-                            <input type="text" name="city" class="form-control" required>
+                        <div class="address-actions-header">
+                            <button type="button" id="showAddressForm">Add Address</button>
                         </div>
-                        <div class="form-group">
-                            <label>State</label>
-                            <input type="text" name="state" class="form-control" required>
+
+                        <c:choose>
+                            <c:when test="${not empty addresses}">
+                                <c:forEach items="${addresses}" var="address">
+                                    <div class="address-card ${addressPreferences.defaultAddressId == address.addressId ? 'default-address' : ''}">
+                                        <p>${address.addressLine}</p>
+                                        <p>${address.city}, ${address.state} ${address.postalCode}</p>
+                                        <p>${address.country}</p>
+                                    </div>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <p>No addresses found.</p>
+                            </c:otherwise>
+                        </c:choose>
+
+                        <div id="addAddressForm" style="display: none;">
+                            <div class="form-group"><label>Address Line</label><input type="text" name="addressLine"></div>
+                            <div class="form-group"><label>City</label><input type="text" name="city"></div>
+                            <div class="form-group"><label>State</label><input type="text" name="state"></div>
+                            <div class="form-group"><label>Postal Code</label><input type="text" name="postalCode"></div>
+                            <div class="form-group"><label>Country</label><input type="text" name="country"></div>
+                            <div class="form-group"><label><input type="checkbox" name="setAsDefault"> Set as Default Address</label></div>
                         </div>
-                        <div class="form-group">
-                            <label>Postal Code</label>
-                            <input type="text" name="postalCode" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Country</label>
-                            <input type="text" name="country" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>
-                                <input type="checkbox" name="setAsDefault"> Set as Default Address
-                            </label>
-                        </div>
-                        <button type="submit" class="save-btn" value="saveAddress">
-                            <span class="button_top">Save Address</span>
-                        </button>
                     </div>
 
-                    <button type="submit" class="save-btn" value="saveAll">
-                        <span class="button_top">SAVE ALL CHANGES</span>
-                    </button>
-                </form>
-
-                <div class="logout-container">
-                    <a href="${pageContext.request.contextPath}/logout" class="logout-button">
-                        <span class=" button_top">Logout</span>
-                    </a>
+                    <div class="form-group">
+                        <button type="submit" name="action" value="saveAll">Save All Changes</button>
+                    </div>
                 </div>
+            </form>
+
+            <div class="logout-container">
+                <a href="${pageContext.request.contextPath}/logout" class="logout-button">Logout</a>
             </div>
         </div>
-        
-        <jsp:include page="/includes/modal.jsp" />
     </div>
 
-    <script>
-        document.getElementById('profileUpload').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('profilePreview').src = e.target.result;
-                }
-                reader.readAsDataURL(file);
-            }
-        });
+    <jsp:include page="/includes/modal.jsp" />
+</div>
 
-        document.getElementById('profileForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
+<script>
+    // Image Preview
+    document.getElementById('profileUpload').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('profilePreview').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 
-            fetch('${pageContext.request.contextPath}/updateProfile', {
-                method: 'POST',
-                body: formData
-            }).then(response => {
-                if (response.ok) {
-                    window.location.reload();
-                } else {
-                    response.text().then(text => {
-                        alert('Error: ' + text);
-                    });
-                }
-            }).catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while updating profile');
-            });
-        });
+    // Click on image triggers file input
+    document.querySelector('.profile-pic-container').addEventListener('click', () => {
+        document.getElementById('profileUpload').click();
+    });
 
-        // Make entire profile container clickable
-        document.querySelector('.profile-pic-container').addEventListener('click', function(e) {
-            if (!e.target.closest('.upload-btn')) {
-                document.getElementById('profileUpload').click();
-            }
+    // Genre selection logic
+    const genreItems = document.querySelectorAll('.genre-item');
+    const selectedGenresInput = document.getElementById('selectedGenres');
+    genreItems.forEach(item => {
+        item.addEventListener('click', () => {
+            item.classList.toggle('selected');
+            updateSelectedGenres();
         });
-        
-        
-        
-        document.querySelectorAll('.genre-item').forEach(item => {
-            item.addEventListener('click', () => {
-                item.classList.toggle('selected');
-            });
-        });
-        
-        
-        
-        
-        
-     // Show/hide address form
-        document.getElementById('showShippingForm').addEventListener('click', function() {
-            const form = document.getElementById('addAddressForm');
-            form.style.display = 'block';
-            document.getElementById('setAsDefault').checked = false;
-        });
+    });
 
-        document.getElementById('showDefaultForm').addEventListener('click', function() {
-            const form = document.getElementById('addAddressForm');
-            form.style.display = 'block';
-            document.getElementById('setAsDefault').checked = true;
-        });
+    function updateSelectedGenres() {
+        const selected = [...document.querySelectorAll('.genre-item.selected')].map(item => item.textContent.trim());
+        selectedGenresInput.value = selected.join(',');
+    }
 
-        // Hide form when clicking save (assuming page reload)
-        document.querySelector('button[value="saveAddress"]').addEventListener('click', function() {
-            document.getElementById('addAddressForm').style.display = 'none';
-        });
-    </script>
-    
-    <script src="${pageContext.request.contextPath}/resources/js/modal.js" defer></script>
+    // Show address form
+    document.getElementById('showAddressForm').addEventListener('click', () => {
+        document.getElementById('addAddressForm').style.display = 'block';
+    });
+</script>
 </body>
+
+
 </html>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - HELIO</title>
+    <title>Contact Us - HELLO</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/modal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
@@ -195,9 +195,9 @@
 
                 <div class="address-content">
                     <h2>ADDRESS</h2>
-                    <p>Kungsgatan 55<br>
-                    411 15 Gothenburg<br>
-                    Sweden</p>
+                    <p>Kathmandu 55<br>
+                    Italitar<br>
+                    Nepal</p>
                 </div>
             </div>
 

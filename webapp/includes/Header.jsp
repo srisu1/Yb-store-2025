@@ -277,7 +277,8 @@ lottie-player path {
                                 <c:forEach items="${booksOfWeek}" var="book" end="3">
                                     <li>
                                         <a href="bookdetails?id=${book.bookId}">
-                                            <img src="${book.coverImageUrl}" alt="${book.title} cover" class="weekly-book-image">
+                                            <img src="<c:url value='${book.coverImageUrl}' />" alt="${book.title} cover" class="weekly-book-image">
+
                                         </a>
                                     </li>
                                 </c:forEach>

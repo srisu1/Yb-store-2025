@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +10,7 @@
 <script src="https://cdn.lordicon.com/lordicon.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
 
 
 <style>
@@ -23,7 +25,9 @@
 body {
   font-family: 'Karla', sans-serif;
   font-weight: 500 500;
-  line-height: 1;
+  margin-top:0px;
+  padding-top:0px;
+  /* line-height: 1; */
 }
 
 /* Grid-based Header */
@@ -33,13 +37,15 @@ body {
   align-items: flex-start;
   padding: 0px 45px;
   width: 100%;
-  background: #fff;
+ 
   
 }
 
 .logo {
   display: flex;
   align-items: center;
+  padding-top:-80px;
+  height:70%;
 }
 
 #logo-animation {
@@ -55,7 +61,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding-top:50px;
+  padding-top:30px;
 }
 
 .Navbar-Options {
@@ -83,7 +89,7 @@ body {
   justify-content: flex-end;
   align-items: flex-start;
   position: relative;
-  padding-top:40px;
+  padding-top:30px;
 }
 
 .icon-list {
@@ -195,31 +201,26 @@ lottie-player path {
   fill: currentColor !important;
   stroke: currentColor !important;
 }
+.Drop-Down-Middle-Portion-Books-Of-The-Week-Pictures {
+    display: flex;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+}
+
+.weekly-book-image {
+    width: 100px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 
 
 
 </style>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const toggleBtn = document.querySelector('.menu-toggle');
-  const navbar = document.querySelector('.Navbar');
-  const iconList = document.querySelector('.icon-list');
 
-  toggleBtn.addEventListener('click', function (e) {
-    e.stopPropagation();
-    navbar.classList.toggle('active');
-    iconList.classList.toggle('active');
-  });
-
-  document.addEventListener('click', function (e) {
-    if (!e.target.closest('.Icons') && !e.target.closest('.Navbar')) {
-      navbar.classList.remove('active');
-      iconList.classList.remove('active');
-    }
-  });
-});
-</script>
 
 
 
@@ -239,6 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
             autoplay>
           </lottie-player>
         </a>
+        
 
 
       
@@ -246,95 +248,74 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-        <!-- Navbar starts here -->
-        <div class="Navbar">
-            <ul class="Navbar-Options" style="list-style: none;">
-
-                <!-- Drop-Down from books start here -->
-                <li class="Books-Drop-Down-List">
-                    <a href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        BOOKS <i class="fa-solid fa-chevron-down"></i>
-                    </a>
-                    <!-- Container that contails the full drop down menu after clicking on book starts here -->
-                    <section class="Drop-Down-List-Container"  aria-label="Books submenu">
-
-                        <div class="Genre_Drop-Down">
-                            <ul class="Genre_Drop-Down-Options" style="list-style: none;">
-                                <li><a href="#">Fiction</a></li>
-                                <li><a href="#">Kids</a></li>
-                                <li><a href="#">Languages</a></li>
-                                <li><a href="#">Business</a></li>
-                                <li><a href="#">Travel</a></li>
-                                <li><a href="#">Manga</a></li>
-                                <li><a href="#">Learning</a></li>
-                                <li><a href="#">Technology</a></li>
-                                <li><a href="#">Photography</a></li>
-                            
-                            </ul>
-
-
-                        </div>
-
-                        <div class="Drop-Down-Middle-Portion">
-
-                            <ul class="Drop-Down-Middle-Portion-Top" style="list-style: none;">
-
-                                <li><a href="#">Best Seller</a></li>
-                                <li><a href="#">New Arrival</a></li>
-                                <li><a href="#">Popular</a></li>
-                                
-
-                            </ul>
-
-                            <div class="Drop-Down-Middle-Portion-Books-Of-The-Week">
-
-                                <h5 class="Drop-Down-Middle-Portion-Heading"> Books Of The Week</h5>
-                                <ul class="Drop-Down-Middle-Portion-Books-Of-The-Week-Pictures" style="list-style: none;">
-
-                                    <li><a href="#"><img src="img1.png" alt=""></a></li>
-                                    <li><a href="#"><img src="img2.png" alt=""></a></li>
-                                    <li><a href="#"><img src="img3.png" alt=""></a></li>
-                                    <li><a href="#"><img src="img4.png" alt=""></a></li>
-
-
-
-                                </ul>
-
-                            </div>
-
-
-                        </div>
-
-                        <div class="Drop-Down-Others">
-                            <h6>Others</h6>
-
-
-                            <ul class="Drop-Down-Others-Options" style="list-style: none;">
-                                <li><a href="#">Bundle Deals</a></li>
-                                <li><a href="#">Used Books</a></li>
-                                <li><a href="#">Wishlist</a></li>
-                                <li><a href="#">Book Request</a></li>
-                               
-                            </ul>
-
-                        </div>
-
-
-                    </section>
-
-                </li>
-                <!-- Drop-Down from books ends here -->
-
-                <li><a href="#">DEALS</a></li>
-                <li><a href="#">ABOUT</a></li>
-                <li><a href="#">CONTACT</a></li>
-                
-            
-            </ul>
-
-
-        </div>
-        <!-- Navbar ends here -->
+      <!-- Navbar starts here -->
+	    <div class="Navbar">
+	        <ul class="Navbar-Options" style="list-style: none;">
+	            <!-- Drop-Down from books start here -->
+	            <li class="Books-Drop-Down-List">
+	                <a href="#" role="button" aria-haspopup="true" aria-expanded="false">
+	                    BOOKS <i class="fa-solid fa-chevron-down"></i>
+	                </a>
+	                <section class="Drop-Down-List-Container" aria-label="Books submenu">
+	                    <div class="Genre_Drop-Down">
+	                        <h6 class="dropdown-section-header">Categories</h6>
+	                        <ul class="Genre_Drop-Down-Options" style="list-style: none;">
+	                            <c:forEach items="${categories}" var="category">
+	                                <li><a href="catalog?categoryId=${category.categoryId}" class="dropdown-link" data-category-id="${category.categoryId}">
+	                                    ${category.categoryName}
+	                                </a></li>
+	                            </c:forEach>
+	                        </ul>
+	                        
+	                       
+							
+	                    </div>
+	
+	                    <div class="Drop-Down-Middle-Portion">
+	                        <div class="Drop-Down-Middle-Portion-Top">
+	                            <h6 class="dropdown-section-header">Quick Links</h6>
+	                            <ul class="Drop-Down-Middle-Portion-Top" style="list-style: none;">
+	                                <li><a href="catalog?filter=bestSeller" class="dropdown-link">Best Sellers</a></li>
+	                                <li><a href="catalog?filter=newArrivals" class="dropdown-link">New Arrivals</a></li>
+	                                <li><a href="catalog?filter=popular" class="dropdown-link">Popular</a></li>
+	                            </ul>
+	                        </div>
+	
+	                        <div class="Drop-Down-Middle-Portion-Books-Of-The-Week">
+	                            <h5 class="Drop-Down-Middle-Portion-Heading">Books Of The Week</h5>
+	                            <ul class="Drop-Down-Middle-Portion-Books-Of-The-Week-Pictures" style="list-style: none;">
+	                                <!-- Dynamic Books of the Week -->
+	                                <c:forEach items="${booksOfWeek}" var="book" end="3">
+	                                    <li>
+	                                        <a href="bookdetails?id=${book.bookId}">
+	                                            <img src="<c:url value='${book.coverImageUrl}' />" alt="${book.title} cover" class="weekly-book-image">
+	
+	                                        </a>
+	                                    </li>
+	                                </c:forEach>
+	                            </ul>
+	                        </div>
+	                    </div>
+	
+	                    <div class="Drop-Down-Others">
+	                        <h6 class="dropdown-section-header">Other Services</h6>
+	                        <ul class="Drop-Down-Others-Options" style="list-style: none;">
+	                            <li><a href="bundle-deals" class="dropdown-link">Bundle Deals</a></li>
+	                            <li><a href="used-books" class="dropdown-link">Used Books</a></li>
+	                            <li><a href="wishlist" class="dropdown-link">Wishlist</a></li>
+	                            <li><a href="book-request" class="dropdown-link">Book Request</a></li>
+	                        </ul>
+	                    </div>
+	                </section>
+	            </li>
+	            <!-- Drop-Down from books ends here -->
+	
+	            <li><a href="#">DEALS</a></li>
+	            <li><a href="${pageContext.request.contextPath}/pages/about">ABOUT</a></li>
+	            <li><a href="${pageContext.request.contextPath}/pages/contact">CONTACT</a></li>
+	        </ul>
+	    </div>
+    <!-- Navbar ends here -->
 
         <!-- Icons starts here -->
         <div class="Icons">
@@ -391,6 +372,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
     </header>
     <!-- Header section ends -->
+    <script>
+	document.addEventListener('DOMContentLoaded', function () {
+	  const toggleBtn = document.querySelector('.menu-toggle');
+	  const navbar = document.querySelector('.Navbar');
+	  const iconList = document.querySelector('.icon-list');
+	
+	  toggleBtn.addEventListener('click', function (e) {
+	    e.stopPropagation();
+	    navbar.classList.toggle('active');
+	    iconList.classList.toggle('active');
+	  });
+	
+	  document.addEventListener('click', function (e) {
+	    if (!e.target.closest('.Icons') && !e.target.closest('.Navbar')) {
+	      navbar.classList.remove('active');
+	      iconList.classList.remove('active');
+	    }
+	  });
+	});
+</script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
 	
 
 </body>
