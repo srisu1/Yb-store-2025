@@ -7,33 +7,94 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AuthorDAO {
-
-    // Use DbConfig to get database connection
+    
     public List<Author> getAllAuthors() {
         List<Author> authors = new ArrayList<>();
-        
-        // Query to fetch authors from the Author table
         String query = "SELECT * FROM Author";
         
         try (Connection connection = DbConfig.getDbConnection();
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
             
-            // Iterate over the result set and create Author objects
             while (resultSet.next()) {
-                int authorId = resultSet.getInt("Author_id");
-                String name = resultSet.getString("Author_name");
-                String bio = resultSet.getString("Author_bio");
-                String email = resultSet.getString("Author_email");
-                
-                Author author = new Author(authorId, name, bio, email);
-                authors.add(author);
+                authors.add(extractAuthorFromResultSet(resultSet));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return authors;
+    }
+
+    public Author getAuthorById(int authorId) {
+        String query = "SELECT * FROM Author WHERE Author_id = ?";
+        try (Connection connection = DbConfig.getDbConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            
+            statement.setInt(1, authorId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return extractAuthorFromResultSet(resultSet);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean addAuthor(Author author) {
+        String sql = "INSERT INTO Author (Author_name, Author_bio, Author_email) VALUES (?, ?, ?)";
+        try (Connection conn = DbConfig.getDbConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, author.getName());
+            stmt.setString(2, author.getBio());
+            stmt.setString(3, author.getEmail());
+            return stmt.executeUpdate() > 0;
             
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the error accordingly
+            e.printStackTrace();
+            return false;
         }
-        
-        return authors;  // Ensure it returns a List<Author>
+    }
+
+    public boolean updateAuthor(Author author) {
+        String sql = "UPDATE Author SET Author_name = ?, Author_bio = ?, Author_email = ? WHERE Author_id = ?";
+        try (Connection conn = DbConfig.getDbConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, author.getName());
+            stmt.setString(2, author.getBio());
+            stmt.setString(3, author.getEmail());
+            stmt.setInt(4, author.getAuthorId());
+            return stmt.executeUpdate() > 0;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteAuthor(int authorId) {
+        String sql = "DELETE FROM Author WHERE Author_id = ?";
+        try (Connection conn = DbConfig.getDbConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, authorId);
+            return stmt.executeUpdate() > 0;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private Author extractAuthorFromResultSet(ResultSet rs) throws SQLException {
+        return new Author(
+            rs.getInt("Author_id"),
+            rs.getString("Author_name"),
+            rs.getString("Author_bio"),
+            rs.getString("Author_email")
+        );
     }
 }

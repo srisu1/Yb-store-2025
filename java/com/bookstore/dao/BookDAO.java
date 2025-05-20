@@ -474,9 +474,7 @@ public class BookDAO {
     
     
     
-    
- // In BookDAO.java
-    public List<Book> getPaginatedBooks(int page, int size) throws SQLException, ClassNotFoundException {
+       public List<Book> getPaginatedBooks(int page, int size) throws SQLException, ClassNotFoundException {
         Connection connection = DbConfig.getDbConnection();
         int offset = (page - 1) * size;
         String sql = "SELECT b.Book_id, b.Book_Title, b.Book_coverimageurl, b.Book_price, " +
@@ -564,8 +562,7 @@ public class BookDAO {
         return count;
     }
     
-    
- // In BookDAO.java
+
     public List<Book> searchBooks(String query, int page, int size) throws SQLException, ClassNotFoundException {
         Connection connection = DbConfig.getDbConnection();
         int offset = (page - 1) * size;
@@ -628,4 +625,3 @@ public class BookDAO {
   
 }
     
-   

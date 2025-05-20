@@ -356,6 +356,10 @@ lottie-player path {
 					           style="width:30px;height:30px">
 					       </lord-icon>
 	                      </a>
+	                      <span id="isLoggedIn" style="display:none;">
+						  <% if (session.getAttribute("user") != null) { %>true<% } else { %>false<% } %>
+						</span>
+	                      
                         </li>
                         
                        

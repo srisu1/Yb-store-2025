@@ -333,6 +333,7 @@ lottie-player path {
                         trigger="hover" style="width:30px;height:30px">
                     </lord-icon>
                 </a>
+                
             </li>
             <li>
                 <a href="#" id="cartTrigger">
@@ -340,6 +341,11 @@ lottie-player path {
                         trigger="hover" style="width:30px;height:30px">
                     </lord-icon>
                 </a>
+                <!-- This is a hidden tag that stores whether the user is logged in -->
+    			<span id="isLoggedIn" style="display:none;">
+				  <% if (session.getAttribute("user") != null) { %>true<% } else { %>false<% } %>
+				</span>
+
             </li>
         </ul>
     </div>
