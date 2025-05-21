@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.sql.SQLException;
 import java.net.URLDecoder;
 
 public class CookiesUtil {
@@ -73,10 +74,16 @@ public class CookiesUtil {
     public static void refreshSessionFromCookie(HttpServletRequest request, UserDAO userDAO) {
         String email = getCookieValue(request, "rememberMe");
         if (email != null && !SessionUtil.isUserLoggedIn(request)) {
-            User user = userDAO.getUserByEmail(email);
-            if (user != null) {
-                SessionUtil.createUserSession(request, user);
+            try {
+                User user = userDAO.getUserByEmail(email);
+                if (user != null) {
+                    SessionUtil.createUserSession(request, user);
+                }
+            } catch (SQLException e) {
+                // handle or log error
+                e.printStackTrace();
             }
         }
     }
+
 }

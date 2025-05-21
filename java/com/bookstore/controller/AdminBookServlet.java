@@ -79,7 +79,7 @@ public class AdminBookServlet extends HttpServlet {
                 } else {
                     // Normal paginated mode
                     books = bookDAO.getPaginatedBooks(page, size);
-                    totalBooks = bookDAO.getTotalBookCount();
+                    totalBooks = bookDAO.getTotalBooksCount();
                 }
 
                 int totalPages = (int) Math.ceil((double) totalBooks / size);

@@ -299,7 +299,7 @@ lottie-player path {
             </li>
             <!-- Drop-Down from books ends here -->
 
-            <li><a href="#">DEALS</a></li>
+            <li><a href="${pageContext.request.contextPath}/catalog">ALL</a></li>
             <li><a href="${pageContext.request.contextPath}/pages/about">ABOUT</a></li>
             <li><a href="${pageContext.request.contextPath}/pages/contact">CONTACT</a></li>
         </ul>

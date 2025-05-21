@@ -547,21 +547,45 @@ public class BookDAO {
         return new ArrayList<>(bookMap.values());
     }
 
-    public int getTotalBookCount() throws SQLException, ClassNotFoundException {
-        Connection connection = DbConfig.getDbConnection();
-        String sql = "SELECT COUNT(*) FROM Books";
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        rs.next();
-        int count = rs.getInt(1);
-        
-        rs.close();
-        ps.close();
-        connection.close();
-        
-        return count;
-    }
-    
+       public int getTotalBooksCount() throws SQLException {
+    	    String sql = "SELECT COUNT(*) FROM books";
+    	    try (Connection conn = DbConfig.getDbConnection();
+    	         PreparedStatement stmt = conn.prepareStatement(sql);
+    	         ResultSet rs = stmt.executeQuery()) {
+    	        if (rs.next()) {
+    	            return rs.getInt(1);
+    	        }
+    	        return 0;
+    	    }
+    	}
+
+    	// Method to get books with authors, paginated (limit & offset)
+       public List<Book> getBooksWithAuthorsPaginated(int offset, int limit) throws SQLException {
+    	    List<Book> books = new ArrayList<>();
+
+    	    String sql = "SELECT b.*, a.Author_name " +
+    	                 "FROM Books b " +
+    	                 "JOIN Author_Book ab ON b.Book_id = ab.Book_id " +
+    	                 "JOIN Author a ON ab.Author_id = a.Author_id " +
+    	                 "ORDER BY b.Book_title ASC LIMIT ? OFFSET ?";
+
+    	    try (Connection conn = DbConfig.getDbConnection();
+    	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+    	        stmt.setInt(1, limit);
+    	        stmt.setInt(2, offset);
+
+    	        try (ResultSet rs = stmt.executeQuery()) {
+    	            while (rs.next()) {
+    	                Book book = mapResultSetToBook(rs); // You must extract Author_name in this method
+    	                books.add(book);
+    	            }
+    	        }
+    	    }
+
+    	    return books;
+    	}
+
+
 
     public List<Book> searchBooks(String query, int page, int size) throws SQLException, ClassNotFoundException {
         Connection connection = DbConfig.getDbConnection();
@@ -622,6 +646,208 @@ public class BookDAO {
         return count;
     }
     
+    public boolean hasBooksInCategory(int categoryId) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT COUNT(*) FROM Book_Category WHERE Category_id = ?";
+        try (Connection conn = DbConfig.getDbConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, categoryId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        }
+        return false;
+    }
+    
+    public List<Book> getBooksSortedByPrice(Connection connection, boolean ascending) throws SQLException, ClassNotFoundException {
+        String order = ascending ? "ASC" : "DESC";
+        String query = "SELECT * FROM Books ORDER BY Book_price " + order;
+        List<Book> books = new ArrayList<>();
+        
+        try (PreparedStatement ps = connection.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Book book = mapResultSetToBook(rs);
+                book.setCategories(getCategoriesForBook(connection, book.getBookId()));
+                books.add(book);
+            }
+        }
+        return books;
+    }
+
+    public List<Book> getAllBooks(Connection connection) throws SQLException, ClassNotFoundException {
+        String query = "SELECT * FROM Books ORDER BY Book_Title ASC"; // order by title alphabetically
+        List<Book> books = new ArrayList<>();
+        
+        try (PreparedStatement ps = connection.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Book book = mapResultSetToBook(rs);
+                book.setCategories(getCategoriesForBook(connection, book.getBookId()));
+                books.add(book);
+            }
+        }
+        return books;
+    }
+
+    public List<Book> getBooksByAuthorName(Connection connection, String authorName) throws SQLException {
+        Map<Integer, Book> bookMap = new HashMap<>();
+
+        String sql = "SELECT b.Book_id, b.Book_Title, b.Book_coverimageurl, b.Book_price, " +
+                     "b.Book_description, b.Book_isbn, b.Publication_date, b.Book_stockquantity, " +
+                     "a.Author_id, a.Author_name, a.Author_bio, a.Author_email, " +
+                     "c.Category_id, c.Category_name " +
+                     "FROM Books b " +
+                     "JOIN Author_Book ab ON b.Book_id = ab.Book_id " +
+                     "JOIN Author a ON ab.Author_id = a.Author_id " +
+                     "LEFT JOIN Book_Category bc ON b.Book_id = bc.Book_id " +
+                     "LEFT JOIN Category c ON bc.Category_id = c.Category_id " +
+                     "WHERE a.Author_name LIKE ?";
+
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, "%" + authorName + "%"); // match anywhere in name
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            int bookId = rs.getInt("Book_id");
+            Book book = bookMap.get(bookId);
+
+            if (book == null) {
+                book = new Book(
+                    bookId,
+                    rs.getString("Book_Title"),
+                    rs.getString("Book_coverimageurl"),
+                    rs.getDouble("Book_price"),
+                    rs.getString("Book_description"),
+                    rs.getString("Book_isbn"),
+                    rs.getDate("Publication_date"),
+                    rs.getInt("Book_stockquantity")
+                );
+                book.setAuthors(new ArrayList<>());
+                book.setCategories(new ArrayList<>());
+                bookMap.put(bookId, book);
+            }
+
+            // Add author
+            int aid = rs.getInt("Author_id");
+            if (!rs.wasNull()) {
+                Author author = new Author(
+                    aid,
+                    rs.getString("Author_name"),
+                    rs.getString("Author_bio"),
+                    rs.getString("Author_email")
+                );
+                if (!book.getAuthors().contains(author)) {
+                    book.getAuthors().add(author);
+                }
+            }
+
+            // Add category
+            int cid = rs.getInt("Category_id");
+            String cname = rs.getString("Category_name");
+            if (cname != null && !cname.isEmpty()) {
+                Category category = new Category(cid, cname);
+                boolean alreadyAdded = book.getCategories().stream()
+                    .anyMatch(c -> c.getCategoryName().equalsIgnoreCase(cname));
+                if (!alreadyAdded) {
+                    book.getCategories().add(category);
+                }
+            }
+        }
+
+        rs.close();
+        ps.close();
+        return new ArrayList<>(bookMap.values());
+    }
+    public List<Book> getBooksByPriceRange(double minPrice, double maxPrice) throws SQLException, ClassNotFoundException {
+        List<Book> books = new ArrayList<>();
+        Connection connection = DbConfig.getDbConnection();
+
+        String sql = "SELECT b.Book_id, b.Book_Title, b.Book_coverimageurl, b.Book_price, b.Book_description, " +
+                     "b.Book_isbn, b.Publication_date, b.Book_stockquantity, " +
+                     "a.Author_id, a.Author_name, a.Author_bio, a.Author_email, " +
+                     "c.Category_id, c.Category_name " +
+                     "FROM Books b " +
+                     "LEFT JOIN Author_Book ab ON b.Book_id = ab.Book_id " +
+                     "LEFT JOIN Author a ON ab.Author_id = a.Author_id " +
+                     "LEFT JOIN Book_Category bc ON b.Book_id = bc.Book_id " +
+                     "LEFT JOIN Category c ON bc.Category_id = c.Category_id " +
+                     "WHERE b.Book_price BETWEEN ? AND ? " +
+                     "ORDER BY b.Book_price ASC";
+
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setDouble(1, minPrice);
+        ps.setDouble(2, maxPrice);
+
+        ResultSet rs = ps.executeQuery();
+
+        Map<Integer, Book> bookMap = new LinkedHashMap<>(); // Preserve order and unique books
+
+        while (rs.next()) {
+            int bookId = rs.getInt("Book_id");
+            Book book = bookMap.get(bookId);
+
+            if (book == null) {
+                book = new Book(
+                    bookId,
+                    rs.getString("Book_Title"),
+                    rs.getString("Book_coverimageurl"),
+                    rs.getDouble("Book_price"),
+                    rs.getString("Book_description"),
+                    rs.getString("Book_isbn"),
+                    rs.getDate("Publication_date"),
+                    rs.getInt("Book_stockquantity")
+                );
+                book.setAuthors(new ArrayList<>());
+                book.setCategories(new ArrayList<>());
+                bookMap.put(bookId, book);
+            }
+
+            // Add Author
+            int authorId = rs.getInt("Author_id");
+            if (authorId > 0) {
+                Author author = new Author(
+                    authorId,
+                    rs.getString("Author_name"),
+                    rs.getString("Author_bio"),
+                    rs.getString("Author_email")
+                );
+                if (!book.getAuthors().contains(author)) {
+                    book.getAuthors().add(author);
+                }
+            }
+
+            // Add Category
+            int categoryId = rs.getInt("Category_id");
+            String categoryName = rs.getString("Category_name");
+            if (categoryName != null && !categoryName.isEmpty()) {
+                Category category = new Category(categoryId, categoryName);
+                if (!book.getCategories().contains(category)) {
+                    book.getCategories().add(category);
+                }
+            }
+        }
+
+        rs.close();
+        ps.close();
+        connection.close();
+
+        books.addAll(bookMap.values());
+        return books;
+    }
+
+
+
+ 
+
+    
+    
+   
+
+    
+    
+    
+
+    
   
 }
-    
