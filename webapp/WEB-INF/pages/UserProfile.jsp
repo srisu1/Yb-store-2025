@@ -359,6 +359,28 @@ margin-bottom: 12px;
 background-color: #000000;
 color: white;
 }	
+.logout-button {
+  display: inline-block; /* makes it behave like a button */
+  width: 100%;
+  padding: 12px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 12px;
+  background-color: #000000;
+  color: white;
+  text-align: center; /* center the text */
+  text-decoration: none; /* remove underline */
+  cursor: pointer;
+  font-family: inherit; /* optional, for consistent font */
+  font-size: 16px; /* optional, adjust size */
+  box-sizing: border-box; /* make width/padding behave nicely */
+  transition: background-color 0.3s ease; /* smooth hover */
+}
+
+.logout-button:hover {
+  background-color: #333333; /* a bit lighter black on hover */
+}
+
 
 
         
@@ -460,16 +482,17 @@ color: white;
                     <div class="form-group">
                         <button type="submit" name="action" value="saveAll">Save All Changes</button>
                     </div>
+                     <div class="logout-container">
+		                <a href="${pageContext.request.contextPath}/logout" class="logout-button">Logout</a>
+		            </div>
                 </div>
             </form>
 
-            <div class="logout-container">
-                <a href="${pageContext.request.contextPath}/logout" class="logout-button">Logout</a>
-            </div>
+           
         </div>
     </div>
 
-    <jsp:include page="/includes/modal.jsp" />
+   
 </div>
 
 <script>
