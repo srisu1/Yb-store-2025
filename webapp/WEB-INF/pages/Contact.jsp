@@ -1,211 +1,199 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - HELLO</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/modal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+    <title>Contact Us</title>
     <style>
-        /* ===== Base Styles ===== */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --light-bg: #f8f9fa;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            background-color: #F4EFE3;
+            font-family: 'Arial', sans-serif;
         }
 
         body {
-            display: flex;
-            flex-direction: column;
+            background: var(--light-bg);
             min-height: 100vh;
-            justify-content: center;
-            padding-top: 20px;
-        }
-
-        /* ===== Typography ===== */
-        @font-face {
-            font-family: 'Apercu Pro'; 
-            src: url(${pageContext.request.contextPath}/resources/fonts/apercu_bold_pro.otf);
-            font-weight: 200 300;
-        }
-
-        h2 {
-            font-size: 1em;
-            white-space: nowrap;
-              margin-top: 4em;
-            padding: 50px 0;
-          
-        }
-        
-
-        /* ===== Main Layout ===== */
-        .contact-container {
             display: flex;
-            gap: 60px;
-            width: 100%;
-            padding: 0 50px; /* Added bottom padding */
-            align-items: flex-end;
-            min-height: 90vh; /* Ensure container height */
-            bottom: 6em;
-			position:relative ;
+            align-items: center;
+            padding: 2rem;
         }
 
-        .image-container {
-        border-radius: 94px;
-        overflow: hidden;
-        width: 50%;
-        aspect-ratio: 1/1;
-        position: relative;
-        
-    }
-
-        .image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
         }
 
-        /* ===== Content Section ===== */
-        .content-container-main {
-            flex: 1;
+        .contact-info {
+            border-right: 2px solid #eee;
+            padding-right: 3rem;
+        }
+
+        .contact-form {
             display: flex;
             flex-direction: column;
-            gap: 80px;
-            
         }
 
-        .content-container {
-            display: flex;
-            gap: 15em;
-            margin-left: 8em;
-            align-items: center;
-            
+        .section-title {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        /* ===== Form Styles ===== */
-        .contact-form {
-            font-family:'Apercu Pro';
+        .address-group {
+            margin-bottom: 2rem;
         }
 
-        .contact-form .form-group {
-            margin: 0;
+        .address-group h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
         }
 
-        .contact-form input, 
-        .contact-form textarea {
-            border: none;
-            outline: none;
-            background: transparent;
+        .address-group p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .form-control {
             width: 100%;
-            padding: 8px 0;
-            font-size: 1em;
+            padding: 0.8rem;
+            border: 2px solid #eee;
+            border-radius: 6px;
+            font-size: 1rem;
         }
 
-        /* ===== Address Section ===== */
-        .address-content {
-            margin-bottom: 7em;
-            font-family: 'Apercu Pro';
+        textarea.form-control {
+            height: 120px;
+            resize: vertical;
         }
 
-        /* ===== Button Styles ===== */
-        .send-button {
-            background-color: #F4EFE3;
-            padding: 15px 40px;
+        .submit-btn {
+            background: var(--secondary-color);
+            color: white;
+            padding: 1rem 2rem;
             border: none;
-            font-family: 'Apercu Pro';
+            border-radius: 6px;
             cursor: pointer;
-            margin-top: 20px;
+            font-size: 1.1rem;
+            transition: background 0.3s ease;
         }
 
-        button img {
-            width: 20px;
-            height: 20px;
-            margin-right: 8px;
+        .submit-btn:hover {
+            background: #2878b5;
         }
 
         .get-in-touch {
-            font-size: 8em;
-            font-family: 'Apercu Pro';
-            line-height: 1;
-            white-space: nowrap;
-            
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 1.5rem;
+            color: var(--primary-color);
         }
 
-        /* ===== Responsive Design ===== */
         @media (max-width: 768px) {
             .contact-container {
-                flex-direction: column;
+                grid-template-columns: 1fr;
+                padding: 2rem;
             }
-            
-            .image-container {
-                height: 400px;
-                width: 100%;
+
+            .contact-info {
+                border-right: none;
+                border-bottom: 2px solid #eee;
+                padding-right: 0;
+                padding-bottom: 2rem;
             }
-            
-            .content-container {
-                flex-direction: column;
-                gap: 2em;
-                margin-left: 0;
-                padding: 0 20px;
-            }
-            
-            .get-in-touch {
-                font-size: 3em;
-                text-align: center;
+
+            body {
+                padding: 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <jsp:include page="/includes/HeaderOtherPages.jsp" />
-    
     <div class="contact-container">
-        <div class="image-container">
-            <img src="${pageContext.request.contextPath}/resources/images/Yonderimg.png" alt="Contact visual">
-        </div>
-
-        <div class="content-container-main">
-            <div class="content-container">
-                <form class="contact-form">
-                    <h2>SAY HELIO</h2>
-                    <div class="form-group">
-                        <input type="text" placeholder="Name">
-                    </div>
-                    <div class="form-group">
-                        <input type="email" placeholder="Email address">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" placeholder="Position">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" placeholder="Company">
-                    </div>
-                    <div class="form-group">
-                        <textarea placeholder="Message"></textarea>
-                    </div>
-                    <button type="submit" class="send-button">
-                        <img src="${pageContext.request.contextPath}/resources/icons/arrow-turn-down-right.svg" alt="Arrow Icon">
-                        Send
-                    </button>
-                </form>
-
-                <div class="address-content">
-                    <h2>ADDRESS</h2>
-                    <p>Kathmandu 55<br>
-                    Italitar<br>
-                    Nepal</p>
-                </div>
+        <div class="contact-info">
+            <h2 class="section-title">Contact</h2>
+            <p style="margin-bottom: 2rem; color: #666;">IMPGRESTPOPULO.COM</p>
+            
+            <div class="address-group">
+                <h3>SAY HELIO</h3>
+                <p>Kungsgatan 55</p>
+                <p>41115 Gothenburg</p>
+                <p>Sweden</p>
             </div>
 
-            <h1 class="get-in-touch">Get in touch</h1>
+            <div class="address-group">
+                <h3>ADDRESS</h3>
+                <p>Name</p>
+                <p>Email address</p>
+                <p>Position</p>
+                <p>Company</p>
+            </div>
         </div>
+
+        <form class="contact-form">
+            <h2 class="section-title">Message</h2>
+            
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label>Position</label>
+                <input type="text" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Company</label>
+                <input type="text" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Message</label>
+                <textarea class="form-control" required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Send</button>
+        </form>
     </div>
 
-    <jsp:include page="/includes/modal.jsp" />
-    <script src="${pageContext.request.contextPath}/resources/js/modal.js" defer></script>
+    <div class="get-in-touch">
+        Get in touch
+    </div>
 </body>
 </html>

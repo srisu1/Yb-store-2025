@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/modal.css">
 
 <script src="https://cdn.lordicon.com/lordicon.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -352,6 +353,7 @@ lottie-player path {
     <!-- Icons ends here -->
 
 </header>
+<jsp:include page="/includes/modal.jsp" />
 <!-- Header section ends -->
 
 	    <script>
@@ -374,6 +376,11 @@ lottie-player path {
 	  });
 	});
 	</script>
+	<script>
+	  const contextPath = '<%= request.getContextPath() %>';
+	  const isLoggedIn = '<%= session.getAttribute("user") != null ? "true" : "false" %>';
+	</script>
+	<script src="resources/js/modal.js"></script>
 	
 
 </body>

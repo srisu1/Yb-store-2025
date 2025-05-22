@@ -140,7 +140,7 @@
         <span class="close-btn">&times;</span>
         <div class="search-form">
             <h2>Search Products</h2>
-            <form method="get" action="<%= request.getContextPath() %>/search">
+            <form method="get" action="">
 			    <div class="form-group">
 			        <input type="text" placeholder="What are you looking for?" id="searchInput" name="query" autofocus value="<c:out value='${param.query}'/>">
 			    </div>
@@ -244,7 +244,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const cartOverlay = document.getElementById('cartOverlay');
     const closeBtn = cartOverlay.querySelector('.close-btn');
 
-  
+    // You probably have a function to open the cart modal somewhere, 
+    // make sure it includes this line:
+    // document.body.style.overflow = 'hidden';
 
     closeBtn.addEventListener('click', function () {
         cartOverlay.style.display = 'none';
@@ -264,7 +266,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('query')) {
         searchOverlay.style.display = 'flex';
-        document.body.classList.add('modal-open'); 
+        document.body.classList.add('modal-open'); // if you use this to disable background scroll
     }
 });
 

@@ -38,13 +38,14 @@
            <nav class="nav-middle">
 			    <ul>
 			    	<li>
-                          <a href="#" onclick="showSection('home')">
-	                       <lord-icon src="${pageContext.request.contextPath}/resources/icons/wired-outline-63-home-hover-3d-roll.json"
-					           trigger="hover" 
-					           style="width:30px;height:30px">
-					       </lord-icon>
-	                      </a>
-                        </li>
+					  <a href="${pageContext.request.contextPath}/">
+					    <lord-icon src="${pageContext.request.contextPath}/resources/icons/wired-outline-63-home-hover-3d-roll.json"
+					               trigger="hover" 
+					               style="width:30px;height:30px">
+					    </lord-icon>
+					  </a>
+					</li>
+
 			        <li><a href="#books" onclick="showSection('books')">
 	                       <lord-icon src="${pageContext.request.contextPath}/resources/icons/wired-outline-112-book-hover-flutter.json"
 					           trigger="hover" 
@@ -65,73 +66,80 @@
 					           trigger="hover" 
 					           style="width:30px;height:30px">
 					       </lord-icon></a></li>
-			        <li><a href="#categories" onclick="showSection('categories')">
-			        <lord-icon src="${pageContext.request.contextPath}/resources/icons/wired-outline-35-edit-hover-line.json"
-					           trigger="hover" 
-					           style="width:30px;height:30px">
-					       </lord-icon>
-			        </a></li>
+					       
+					       
+			        <li>
+				        <a href="#categories" onclick="showSection('categories')">
+				        <lord-icon src="${pageContext.request.contextPath}/resources/icons/wired-outline-35-edit-hover-line.json"
+						           trigger="hover" 
+						           style="width:30px;height:30px">
+						       </lord-icon>
+				        </a>
+			        </li>
 			    </ul>
 			</nav>
 			
 			<div class= "nav-end">
-				<li>
-                          <a href="#" id="profileTrigger">
-	                       <lord-icon src="${pageContext.request.contextPath}/resources//icons/wired-outline-21-avatar-hover-looking-around.json"
-					           trigger="loop" 
-					           style="width:30px;height:30px">
-					       </lord-icon>
-	                      </a>
-                        </li>
+						<li>
+						  <a href="${pageContext.request.contextPath}/redirectToUserProfile" id="profileTrigger">
+						    <lord-icon src="${pageContext.request.contextPath}/resources/icons/wired-outline-21-avatar-hover-looking-around.json"
+						               trigger="loop" 
+						               style="width:30px;height:30px">
+						    </lord-icon>
+						  </a>
+						</li>
+
                         <li>
-                          <a href="#" id="logoutTrigger">
-	                       <lord-icon src="${pageContext.request.contextPath}/resources//icons/wired-outline-19-magnifier-zoom-search-hover-spin-2.json"
-					           trigger="loop" 
-					           delay="2000"
-					           style="width:30px;height:30px">
-					       </lord-icon>
-	                      </a>
-                        </li>
-			
+						  <a href="${pageContext.request.contextPath}/logout" id="logoutTrigger">
+						    <img src="${pageContext.request.contextPath}/resources/icons/logout.gif" 
+						         alt="Logout" 
+						         class="logout-gif" />
+						  </a>
+						</li>
+
+
+
+									
 			</div>
         
        		 
 
         </div>
         <div class="mainsection">
-	    <div class="toppart">
-	        <div class="header-text">
-	            <h1>Hi, Admin!</h1>
-	            <h3>Let's take a look at your activity today</h3>
-	        </div>
+		    <div class="toppart">
+		        <div class="header-text">
+		            <h1>Hi, Admin!</h1>
+		            <h3>Let's take a look at your activity today</h3>
+		        </div>
+		        
+		       
+		    </div>
+	
 	        
-	        <form class="search-form" action="searchbarmain">
-	            <div class="search-container">
-	                <i class="fa fa-search"></i>
-	                <input type="search" placeholder="Search for health data" autofocus required>
-	            </div>
-	        </form>
-	    </div>
+	       <div id="books" class="section book-section">
+			    <jsp:include page="admin_book.jsp" />
+			</div>
+			
+			<div id="people" class="section people-section">
+			    <jsp:include page="admin_people.jsp" />
+			</div>
+			
+			<div id="categories" class="section category-section">
+			    <jsp:include page="admin_category.jsp" />
+			</div>
+			
+			<div id="orders" class="section order-section">
+			    <jsp:include page="admin_order.jsp" />
+			</div>
 
-        
-        <div id="books" class="book-section" >
-        	<jsp:include page="admin_book.jsp" />
-        	
-        
-
-            
-        </div>
-        
-        <div id="people" class="people-section" style="display:none;">
-	        <jsp:include page="admin_people.jsp"/>
-	    </div>
+	    
 	       
         
         </div>
         
         
 
-        </div>
+    </div>
     
         
           

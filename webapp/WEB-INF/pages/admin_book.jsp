@@ -164,15 +164,18 @@
 			            <input type="number" name="stockQuantity" required />
 			        </div>
 			
-			        <div class="form-group">
-			            <label>Select Categories:</label><br>
-			            <c:forEach var="category" items="${categories}">
-			                <label>
-			                    <input type="checkbox" name="categoryIds" value="${category.categoryId}" />
-			                    ${category.categoryName}
-			                </label><br>
-			            </c:forEach>
-			        </div>
+			       <div class="form-group">
+					    <label>Select Categories:</label><br>
+					    <div id="Categories">
+					        <c:forEach var="category" items="${categories}">
+					            <label>
+					                <input type="checkbox" name="categoryIds" value="${category.categoryId}" />
+					                ${category.categoryName}
+					            </label>
+					        </c:forEach>
+					    </div>
+					</div>
+
 			        <div class="form-group">
 					    <label for="authorSelect">Select Authors:</label>
 					    <select id="authorSelect" name="authorIds" multiple="multiple" class="form-control select2">
@@ -216,7 +219,7 @@
                     <tr>
                         <td>${book.bookId}</td>
                         <td>${book.title}</td>
-                        <td>$${book.price}</td>
+                        <td>Rs.${book.price}</td>
                         <td>${book.isbn}</td>
                         <td>${book.stockQuantity}</td>
                         <td><img src="<c:url value='${book.coverImageUrl}' />" alt="Book Cover" /></td>

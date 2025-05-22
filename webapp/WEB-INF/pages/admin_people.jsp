@@ -2,17 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="com.bookstore.model.Author, com.bookstore.model.User, com.bookstore.dao.UserDAO,com.bookstore.dao.AuthorDAO,java.util.List" %>
-<%
-    UserDAO userDAO = new UserDAO();
-    List<User> users = userDAO.getAllUsers();
-    request.setAttribute("users", users);
-    
-    AuthorDAO authorDAO = new AuthorDAO();
-    List<Author> authors = authorDAO.getAllAuthors();
-    request.setAttribute("authors", authors);
-    
-    
-%>
+
 
 <div class="people-section author-section" style="padding: 2em;">
     <h2>People Management</h2>
@@ -64,49 +54,42 @@
                     <td>${author.bio}</td>
                     <td>${author.email}</td>
                     <td>
-                        <a href="AdminAuthorServlet?action=edit&id=${author.authorId}">Edit</a>
-                        |
-                        <a href="AdminAuthorServlet?action=delete&id=${author.authorId}">Delete</a>
-                    </td>
+					    <a href="AdminAuthorServlet?action=edit&id=${author.authorId}" class="table-action-button">Edit</a>
+					    
+					    <a href="AdminAuthorServlet?action=delete&id=${author.authorId}" class="table-action-button">Delete</a>
+					</td>
+
                 </tr>
             </c:forEach>
         </table>
     </div>
 
     <!-- Manage Users -->
-    <div id="user-management" class="people-subsection">
-        <h3>Manage Users</h3>
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Action</th>
-            </tr>
-            <c:forEach items="${users}" var="user">
-                <tr>
-                    <td>${user.fullName}</td>
-                    <td>${user.email}</td>
-                    <td>
-                        <form action="AdminUserServlet" method="post">
-						    <input type="hidden" name="userId" value="${user.userId}" />
-						    <input type="hidden" name="action" value="updateRole" />
-						    <select name="role" onchange="this.form.submit()">
-						        <option value="customer" <c:if test="${user.role == 'customer'}">selected</c:if>>Customer</option>
-						        <option value="admin" <c:if test="${user.role == 'admin'}">selected</c:if>>Admin</option>
-						    </select>
-						</form>
-                    </td>
-                    <td>
-                        <form action="AdminUserServlet" method="post">
-                            <input type="hidden" name="action" value="delete" />
-                            <input type="hidden" name="userId" value="${user.userId}" />
-                            <button type="submit">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            </c:forEach>
-        </table>
-    </div>
-</div>
+	<div id="user-management" class="people-subsection">
+	    <h3>Manage Users</h3>
+	    <table>
+	        <tr>
+	            <th>Name</th>
+	            <th>Email</th>
+	            <th>Role</th>
+	        </tr>
+	        <c:forEach items="${users}" var="user">
+	            <tr>
+	                <td>${user.fullName}</td>
+	                <td>${user.email}</td>
+	                <td>
+	                    <form action="AdminUserServlet" method="post">
+	                        <input type="hidden" name="userId" value="${user.userId}" />
+	                        <input type="hidden" name="action" value="updateRole" />
+	                        <select name="role" onchange="this.form.submit()">
+	                            <option value="customer" <c:if test="${user.role == 'customer'}">selected</c:if>>Customer</option>
+	                            <option value="admin" <c:if test="${user.role == 'admin'}">selected</c:if>>Admin</option>
+	                        </select>
+	                    </form>
+	                </td>
+	            </tr>
+	        </c:forEach>
+	    </table>
+	</div>
 
+</div>

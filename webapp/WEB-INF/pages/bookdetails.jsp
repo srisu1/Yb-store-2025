@@ -509,10 +509,19 @@ button[type="submit"]:hover {
 			</div>
 
 
-            <form action="add-to-cart" method="post">
-                <input type="hidden" name="bookId" value="${book.bookId}">
-                <button type="submit" class="btn-add-to-cart">Add to Cart</button>
-            </form>
+            <form action="${pageContext.request.contextPath}/cart" method="post">
+			    <input type="hidden" name="action" value="add">
+			    <input type="hidden" name="bookId" value="${book.bookId}">
+			    <input type="hidden" name="title" value="${book.title}">
+			    <input type="hidden" name="cover" value="${book.coverImageUrl}">
+			    <input type="hidden" name="price" value="${book.price}">
+			    
+			    <label for="quantity">Quantity:</label>
+			    <input type="number" id="quantity" name="quantity" value="1" min="1">
+			    
+			    <button type="submit" class="btn-add-to-cart">Add to Cart</button>
+			</form>
+
 
             <form action="add-to-wishlist" method="post">
                 <input type="hidden" name="bookId" value="${book.bookId}">
@@ -591,7 +600,7 @@ button[type="submit"]:hover {
         </div>
 
     </div>
-    <jsp:include page="/includes/modal.jsp" />
+   
 
     <script>
         // Toggle Full Description on Read More/Read Less
@@ -674,9 +683,7 @@ button[type="submit"]:hover {
    
     
     
-    <script src="${pageContext.request.contextPath}/resources/js/modal.js" defer></script>
+   
 
 </body>
 </html>
-
-
