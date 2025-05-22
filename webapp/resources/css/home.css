@@ -1,346 +1,436 @@
 @charset "UTF-8";
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* Reset default margins and paddings */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Fonts */
+@font-face {
+  font-family: 'Playfair Display';
+  src: url(fonts/PlayfairDisplay-VariableFont_wght.ttf);
+  font-style: normal;
+  font-display: swap;
+  
 }
 
 @font-face {
-    font-family: 'Playfair Display'; 
-    src: url(fonts/PlayfairDisplay-VariableFont_wght.ttf);
-    font-weight: 200 300;
-  }
-  
-  @font-face {
-    font-family: 'Karla'; 
-    src: url(fonts/Karla-VariableFont_wght.ttf);
-    font-weight: 500 500;
-  }
-  
-  
-  .Main-Container{
-
-    display: flex;
-    flex-direction: column;
-    
-    
-    width: 100%; 
-    margin: 0 auto; 
-    
+  font-family: 'Karla';
+  src: url(fonts/Karla-VariableFont_wght.ttf);
+  font-weight: 500;
 }
-h1, body, span {
-    font-family: 'Playfair Display', serif;
-    font-weight:100;
-  }
 
+h1, body, span {
+  font-family: 'Playfair Display', serif;
+  font-weight: 100;
+}
+
+/* Main container layout */
+.Main-Container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+}
 
 .Header-Hero,
 .Main-Content,
 .main-footer {
   width: 100%;
-  
-  margin: 0px; /* Center content */
-  /* padding: 1rem; Add breathing room */
+  margin: 0;
 }
 
-
-img {
-    max-width: 100%;
-    height: auto;
-  }
-
+/* Header and hero section layout */
 .Header-Hero {
-    display: flex;
-    flex-direction: column;
-    /* padding: 1rem; */
-    background: #ffffff;
-    height: auto;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  height: auto;
 }
-.Hero-Section{
-    display: grid;
-    grid-template-rows: min-content min-content min-content min-content min-content min-content;
-    
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    row-gap: 20px;
-    justify-items: center;
-    align-items: center;
-    height: auto;
-    position:relative;
-    
-    
-    
-   
+
+/* Hero section grid setup */
+.Hero-Section {
+  display: grid;
+  grid-template-rows: repeat(6, min-content);
+  grid-template-columns: repeat(6, 1fr);
+  row-gap: 20px;
+  justify-items: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: -1px;
 }
+
+/* Hero image styling */
 .Hero-Image {
-    max-width: 35rem;  
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    order: 2;
-    aspect-ratio: 1 / 1;
-    grid-row: -7/-4;
-    grid-column: 4/6;
-    align-self: end;
-    position: relative;
-    right: -60px;
-    top: 30px;
-    border-radius: 10px;
-   
-   
-
+  max-width: 50rem;       /* preserved */
+  width: 100%;
+  aspect-ratio: 11 / 13;  /* preserved */
+  grid-row: -7 / -4;
+  grid-column: 4 / 6;
+  align-self: end;
+  position: relative;
+  right: -60px;
+  top: 0px;
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
 }
-
 
 .Hero-Image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;  /* Ensures the image is fully visible without cropping  */
-    padding: 0%;
-    margin: 0%;
-    aspect-ratio: 1 / 1;
-    transition: opacity 0.3s ease;
-    opacity: 1;
-    object-position: center;
-    transform: scale(1.2);
-    border-radius: 10px;
-    
-    
-    
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  transform: scale(1.2);
+  border-radius: 10px;
+  transition: opacity 0.3s ease;
+  opacity: 1;
+  margin: 0;
+  padding: 0;
+  aspect-ratio: 11 / 13;
+
+  /* SOFTENED EDGE EFFECT */
+  filter: drop-shadow(0 0 16px rgba(0, 0, 0, 0.06))
+          drop-shadow(0 0 8px rgba(0, 0, 0, 0.05));
 }
+
 .Hero-Image img.fade-out {
-    opacity: 0;
+  opacity: 0;
 }
 
 
-
-.Hero-Text  {
-    width:100%;
-    height:30%;
-    grid-column: 1/5;
-    grid-row: 1/3;
-    display: grid;
-    align-self: center;
-    font-size: 5.8rem;
-    justify-items:flex-start;
-    position: absolute;
-    z-index:10;
-    gap:2rem;
-    letter-spacing: -2px;
-    
-   left:150px;
-   bottom:150px;
-   
-  }
-.Hero-Text .bottom{
-    position: relative;
-    bottom: 70px;
-   
+/* Hero text */
+.Hero-Text {
+  width: 100%;
+  height: 30%;
+  grid-column: 1 / 5;
+  grid-row: 1 / 3;
+  display: grid;
+  justify-items: flex-start;
+  font-size: 7.5rem;
+  position: absolute;
+  z-index: 10;
+  gap: 1.1rem;
+  letter-spacing: -2px;
+  left: 172px;
+  bottom: 190px;
+  transition: all 0.3s ease-in-out;
+  align-self: center;
+  font-weight: 300;
+  letter-spacing: 1px;
+  transform: scaleY(1.1); /* Slight vertical stretch */
+  transform-origin: bottom; /* Anchor it from the bottom so it doesn't float weirdly */
+   word-spacing: 5px; 
 }
 
+.Hero-Text .bottom {
+  position: relative;
+  bottom: 55px;
+  left: 0px;
+   word-spacing: 15px; 
+}
+
+/* Hero blob button */
 .Hero-Button {
-   
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    display: grid;
-    grid-row: 3/4;
-    grid-column: 1/2;
-    
-    
+  position: absolute;
+  left: 150px;  /* aligned with Hero-Text */
+  bottom: 50px; /* just beneath it */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+   bottom: 0px;
 }
-  
-
 
 .blob-button {
-    position: relative;
-    width: 180px;
-    height: 180px;
-    background: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    right: -70px;
-    bottom:-80px;
-  }
-  
-  .blob-button svg {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    color: #333;
-    z-index: 0;
-    transform: rotate(90deg);
-    transform-origin: center;
-  }
-  
-  .blob-button .blob-text {
-    position: relative;
-    z-index: 1;
-    color: black;
-    font-size: 1.2rem;
-    font-weight: bold;
-    pointer-events: none;
-  }
-.blob-text {
-    position: relative;
-    top: -4px;
-    right: -10px;
+  position: relative;
+  width: 220px;   /* bigger */
+  height: 220px;  /* bigger */
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Remove right and bottom for natural flow */
+  right: 0;
+  bottom: 0;
+  left:-20px;
+  margin-top: 80px; /* space between text and button */
+  transition: all 0.4s ease-in-out; /* a bit smoother */
+}
+
+.blob-button svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: #333;
+  z-index: 0;
+  transform: rotate(90deg);
+  transform-origin: center;
+}
+
+.blob-button .blob-text {
+  position: relative;
+  z-index: 1;
+  color: black;
+  font-size: 1.4rem; /* slightly bigger text */
+  font-weight: bold;
+  pointer-events: none;
+  top: -4px;
+  right: -10px;
 }
 
 
-
-
-
- 
+/* Wave divider under hero */
 .wave-divider {
-    width: 100%;
-    overflow: hidden;
-    line-height: 0;
-   
-  }
-  
-.wave-divider svg,
-  .wave-divider img {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-
-
-
-.Main-Content{
-    background-color: #F4EFE3;
-    padding: 0px;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  vertical-align: bottom;
+  margin-top: -1px;
 }
-/* Book Section Styling */
+
+.wave-divider svg,
+.wave-divider img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Main content background */
+.Main-Content {
+  background-color: #F4EFE3;
+  padding: 0;
+}
+
+/* Book section layout */
 .Book-Section {
-    padding: 2rem;
-    background-color: #F4EFE3;
-    width:80%;
-    margin: 0 auto;
-    
-    
+  padding: 2rem;
+  background-color: #F4EFE3;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .Book-Section h2 {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 4rem;
-    font-weight: 100;
-    color: #333;
-    font-family:Playfair Display;
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 4rem;
+  font-weight: 100;
+  color: #333;
+  font-family: 'Playfair Display';
 }
 
+/* Book grid container */
 .book-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 items per row on large screens */
-    
-    justify-items: center;
-    background-color: #F4EFE3;
-    margin-bottom: 2rem;
-    
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
+  margin-bottom: 2rem;
+}
+.show-more-link {
+  position: absolute;
+  top: -3rem; /* move it higher above the grid */
+  right: 2rem; /* move it a bit left from the edge */
+  font-size: 0.9rem;
+  
+  color: #000; /* black color */
+  text-decoration: none;
+  background-color: transparent;
+  padding: 0.2rem 0.5rem;
+  transition: color 0.3s ease;
+  z-index: 10;
+  font-weight: 900;
+  color: #333;
+  font-family: 'Playfair Display';
+  
 }
 
+.show-more-link:hover {
+  color: #333;
+  text-decoration: underline;
+}
+
+/* Book card styles */
 .book-card {
-    background-color: #F4EFE3;
-    padding: 1rem;
-    border-radius: 10px;
-    
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 100%;
-    max-width: 240px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    
+  background-color: #F4EFE3;
+  padding: 1rem;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  max-width: 240px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .book-card img {
-    width: 100%;
-    height: 300px;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-}
-
-.book-card h3 {
-    font-size: 1rem;
-    color: #333;
-    margin: 0.1rem ;
-    font-family:Karla;
-}
-
-.book-card p {
-    font-size: 1rem;
-    color: #666;
-    margin: 0.5rem 0;
-}
-
-.book-card .add-to-cart {
-    padding: 0.8rem 1.5rem;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.book-card .add-to-cart:hover {
-    background-color: #0056b3;
-}
-
-.book-card img {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;  /* Smooth transition */
+  width: 100%;
+  height: 300px;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .book-card img:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  transform: translateY(-10px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Responsiveness */
-@media screen and (max-width: 1024px) {
-    .book-container {
-        grid-template-columns: repeat(3, 1fr); /* 3 items per row on medium screens */
-    }
+.book-card h3 {
+  font-size: 1rem;
+  color: #333;
+  margin: 0.1rem;
+  font-family: 'Karla';
 }
 
-@media screen and (max-width: 768px) {
-    .Book-Section {
-        padding: 1rem;
-        background-color:#F4EFE3;
-    }
-
-    .book-container {
-        grid-template-columns: repeat(2, 1fr); /* 2 items per row on small screens */
-    }
-
-    .book-card {
-        max-width: 220px; /* Smaller card size */
-    }
-
-    .book-card h3 {
-        font-size: 1.2rem; /* Adjust title font size */
-    }
-
-    .book-card p {
-        font-size: 0.9rem; /* Adjust price/author font size */
-    }
+.book-card p {
+  font-size: 1rem;
+  color: #666;
+  margin: 0.5rem 0;
 }
 
-@media screen and (max-width: 480px) {
-    .book-container {
-        grid-template-columns: 1fr; /* 1 item per row on very small screens */
-    }
+.book-card .add-to-cart {
+  padding: 0.8rem 1.5rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+
+.book-card .add-to-cart:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .Hero-Image {
+    max-width: 20rem;
+    right: -30px;
+    top: 20px;
+  }
+
+  .Hero-Text {
+    font-size: 3.4rem;
+    left: 60px;
+    bottom: 80px;
+    gap: 1.2rem;
+  }
+
+  .blob-button {
+    width: 120px;
+    height: 120px;
+    right: -35px;
+    bottom: -50px;
+  }
+
+  .blob-button .blob-text {
+    font-size: 0.95rem;
+    top: -2px;
+    right: -6px;
+  }
+
+  .book-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .Hero-Image {
+    max-width: 14rem;
+    right: -20px;
+    top: 15px;
+  }
+
+  .Hero-Text {
+    font-size: 2.4rem;
+    left: 30px;
+    bottom: 60px;
+    gap: 1rem;
+  }
+
+  .blob-button {
+    width: 90px;
+    height: 90px;
+    right: -25px;
+    bottom: -35px;
+  }
+
+  .blob-button .blob-text {
+    font-size: 0.8rem;
+    top: -1px;
+    right: -4px;
+  }
+
+  .Book-Section {
+    padding: 1rem;
+  }
+
+  .book-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .Hero-Image {
+    max-width: 10rem;
+    right: -10px;
+    top: 10px;
+  }
+
+  .Hero-Text {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.2rem !important;
+    position: relative !important;
+    left: -10px !important;
+  }
+
+  .Hero-Text h1 {
+    font-size: 2.2rem !important;
+    line-height: 1 !important;
+  }
+
+  .blob-button {
+    width: 40px !important;
+    height: 40px !important;
+    right: -8px !important;
+    bottom: -10px !important;
+  }
+
+  .blob-button .blob-text {
+    font-size: 0.5rem !important;
+    top: 0 !important;
+    right: 0 !important;
+  }
+
+  .book-container {
+    grid-template-columns: 1fr;
+  }
+}
+
 .toast {
     position: fixed;
     bottom: 20px;
@@ -374,4 +464,24 @@ img {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
+}
+.logout-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    font-size: 14px;
+    animation: fadeOut 4s forwards;
+}
+
+/* Optional: toast fade-out animation */
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    75% { opacity: 1; }
+    100% { opacity: 0; display: none; }
 }

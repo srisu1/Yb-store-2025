@@ -29,6 +29,7 @@
     }
 %>
 
+
 <!-- Main container that contains the whole layout -->
 <div class="Main-Container"> 
 
@@ -38,6 +39,10 @@
         <!-- Header section starts -->
         <jsp:include page="/includes/Header.jsp" />
         <!-- Header section ends -->
+        <c:if test="${not empty sessionScope.logoutMessage}">
+		    <div class="logout-message">${sessionScope.logoutMessage}</div>
+		    <c:remove var="logoutMessage" scope="session"/>
+		</c:if>
 
         <!-- Hero section starts -->
             <div class="Hero-Section">
@@ -48,19 +53,22 @@
                 </div>
                   
                 <div class="Hero-Button">
-                    <button class="blob-button" aria-label="Action Button">
-                      <span class="blob-text">Next</span>
-                      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                        <path 
-                          fill="none" 
-                          stroke="currentColor" 
-                          stroke-width="4" 
-                          d="M34.1,-47.8C39.2,-36.5,34.7,-20.9,35.5,-7.6C36.2,5.7,42.3,16.8,38.9,22.4C35.6,27.9,22.9,27.9,11,33.9C-1,39.9,-12.1,51.8,-26.9,54.8C-41.8,57.7,-60.4,51.7,-64.4,39.6C-68.4,27.6,-57.8,9.7,-53.2,-8.1C-48.5,-25.9,-49.9,-43.5,-42,-54.3C-34.2,-65.1,-17.1,-69.1,-1.3,-67.6C14.6,-66.1,29.1,-59.1,34.1,-47.8Z" 
-                          transform="translate(100 100)"
-                        />
-                      </svg>
-                    </button>
-                </div>
+				  <a href="${pageContext.request.contextPath}/catalog" style="text-decoration:none;">
+				    <button class="blob-button" aria-label="Action Button">
+				      <span class="blob-text">Next</span>
+				      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+				        <path 
+				          fill="none" 
+				          stroke="currentColor" 
+				          stroke-width="4" 
+				          d="M34.1,-47.8C39.2,-36.5,34.7,-20.9,35.5,-7.6C36.2,5.7,42.3,16.8,38.9,22.4C35.6,27.9,22.9,27.9,11,33.9C-1,39.9,-12.1,51.8,-26.9,54.8C-41.8,57.7,-60.4,51.7,-64.4,39.6C-68.4,27.6,-57.8,9.7,-53.2,-8.1C-48.5,-25.9,-49.9,-43.5,-42,-54.3C-34.2,-65.1,-17.1,-69.1,-1.3,-67.6C14.6,-66.1,29.1,-59.1,34.1,-47.8Z" 
+				          transform="translate(100 100)"
+				        />
+				      </svg>
+				    </button>
+				  </a>
+				</div>
+
 
                 <div class="Hero-Text">
                     <h1 class="top">Books of</h1>
@@ -69,6 +77,7 @@
 
             </div>
         <!-- Hero section ends -->
+          
 
     </section>
     <!-- Section that contains hero section and header ends here -->
@@ -81,9 +90,10 @@
             </svg>
         </div>
         
-       <div class="Book-Section">
+		  <div class="Book-Section">
 		    <h2>Best Sellers</h2>
 		    <div class="book-container">
+		        <a href="catalog?filter=bestSeller" class="show-more-link">Show All</a> <!-- inside book-container -->
 		        <c:forEach var="book" items="${bestSellers}">
 		            <div class="book-card">
 		                <a href="bookdetails?id=${book.bookId}">
@@ -97,6 +107,7 @@
 		
 		    <h2>New Arrivals</h2>
 		    <div class="book-container">
+		        <a href="catalog?filter=newArrivals" class="show-more-link">Show All</a> <!-- inside book-container -->
 		        <c:forEach var="book" items="${newArrivals}">
 		            <div class="book-card">
 		                <a href="bookdetails?id=${book.bookId}">
@@ -159,6 +170,12 @@
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.0/lottie.min.js"></script>
+    <script>
+	  const contextPath = '<%= request.getContextPath() %>';
+	  const isLoggedIn = '<%= session.getAttribute("user") != null ? "true" : "false" %>';
+	</script>
+<script src="resources/js/modal.js"></script>
+    
     <script src="${pageContext.request.contextPath}/resources/js/modal.js" defer></script>
     <script src="${pageContext.request.contextPath}/resources/js/home.js" defer></script>
 </body>

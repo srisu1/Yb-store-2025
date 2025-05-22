@@ -7,6 +7,9 @@ import com.bookstore.dao.AuthorDAO;
 import com.bookstore.model.Book;
 import com.bookstore.model.Category;
 import com.bookstore.model.Author;
+import java.util.List;
+import java.util.ArrayList;
+
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -25,7 +28,27 @@ public class CatalogueController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
 
-        String categoryId = request.getParameter("categoryId");
+        //  Handle "Remove All Filters" logic
+        String clearFilters = request.getParameter("clearFilters");
+        if ("true".equals(clearFilters)) {
+            // Redirect to clean catalog view with no query params
+            response.sendRedirect(request.getContextPath() + "/catalog");
+            return;
+        }
+
+        // Get all categoryId parameters (multiple values possible)
+        String[] categoryIdParams = request.getParameterValues("categoryId");
+        List<Integer> categoryIds = new ArrayList<>();
+        if (categoryIdParams != null) {
+            for (String idStr : categoryIdParams) {
+                try {
+                    categoryIds.add(Integer.parseInt(idStr));
+                } catch (NumberFormatException e) {
+                    // ignore invalid category id param
+                }
+            }
+        }
+
         String sortBy = request.getParameter("sortBy");
         String authorName = request.getParameter("authorName");
         String minPriceStr = request.getParameter("minPrice");
@@ -66,17 +89,18 @@ public class CatalogueController extends HttpServlet {
 
             List<Book> books;
 
-            // Author filter has highest priority
-            if (authorName != null && !authorName.trim().isEmpty()) {
+            // Use multi-category filter if categoryIds present
+            if (!categoryIds.isEmpty()) {
+                books = bookDAO.getFilteredBooks(categoryIds); // your new method, manages connection itself
+
+            } else if (authorName != null && !authorName.trim().isEmpty()) {
                 books = bookDAO.getBooksByAuthorName(connection, authorName.trim());
-            } 
-            // Price filter next priority (if both minPrice and maxPrice are valid)
-            else if (minPriceStr != null && maxPriceStr != null && !minPriceStr.isEmpty() && !maxPriceStr.isEmpty()) {
+
+            } else if (minPriceStr != null && maxPriceStr != null && !minPriceStr.isEmpty() && !maxPriceStr.isEmpty()) {
                 try {
                     double minPrice = Double.parseDouble(minPriceStr);
                     double maxPrice = Double.parseDouble(maxPriceStr);
 
-                    // Swap if min > max to avoid logic error
                     if (minPrice > maxPrice) {
                         double temp = minPrice;
                         minPrice = maxPrice;
@@ -86,12 +110,10 @@ public class CatalogueController extends HttpServlet {
                     books = bookDAO.getBooksByPriceRange(minPrice, maxPrice);
 
                 } catch (NumberFormatException e) {
-                    // If parsing fails, fallback to all books
                     books = bookDAO.getAllBooksWithAuthors();
                 }
-            } 
-            // Sorting filter
-            else if (sortBy != null && !sortBy.isEmpty()) {
+
+            } else if (sortBy != null && !sortBy.isEmpty()) {
                 switch (sortBy) {
                     case "low-to-high":
                         books = bookDAO.getBooksSortedByPrice(connection, true);
@@ -112,17 +134,12 @@ public class CatalogueController extends HttpServlet {
                         books = bookDAO.getAllBooksWithAuthors();
                         break;
                 }
-            } 
-            // Category filter
-            else if (categoryId != null && !categoryId.isEmpty()) {
-                books = bookDAO.getBooksByCategory(connection, categoryId);
-            } 
-            // Default: paginate all books
-            else {
+
+            } else {
+                // Default: paginate all books
                 int offset = (page - 1) * pageSize;
                 books = bookDAO.getBooksWithAuthorsPaginated(offset, pageSize);
 
-                // Also get total count for pagination UI
                 int totalBooks = bookDAO.getTotalBooksCount();
                 int totalPages = (int) Math.ceil((double) totalBooks / pageSize);
 
@@ -144,4 +161,7 @@ public class CatalogueController extends HttpServlet {
             }
         }
     }
+
+
 }
+

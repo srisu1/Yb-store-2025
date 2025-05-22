@@ -26,17 +26,24 @@
 		  @font-face {
 		    font-family: 'Karla'; 
 		    src: url(fonts/Karla-VariableFont_wght.ttf);
-		    font-weight: 500 500;
+		    
 		  }
 		  
-		  
-        body {
+		
+         body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: center;
+            padding: 20px;
             margin: 1rem;
             background-color: #F3EFE4;
+            padding-top: 40px;!important
         }
 
         .Header {
             background-color: #F4EFE3 !important;
+            margin-top: 40px;
         }
 		  
   
@@ -44,49 +51,170 @@
 		  display: flex;
 		  gap: 15%;
 		}
+		span{
+		font-family:'Karla';
+		}
 		       
 
-        /* Filters Panel */
-        .filters-panel {
-            width: 280px;
-            min-width: 280px;
-            padding: 15px;
-            background: #F4EFE3;
-            border-right: 1px solid #eee;
-            
-        }
+/* Filters Panel */
+.filters-panel {
+    width: 300px;
+    padding: 50px;
+    
+    background-color: #f3efe4;
+    font-family: 'Karla';
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
 
-        .filter-group {
-            margin-bottom: 25px;
-        }
+.filters-panel h2 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
 
-        .filter-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            cursor: pointer;
-            border-bottom: 1px solid #ddd;
-        }
+.filters-panel hr {
+    border: none;
+    border-top: 1px solid #444;
+    margin: 12px 0;
+}
 
-        .filter-options {
-            padding: 8px 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
+.filters-panel .active-filters {
+    font-size: 13px;
+    color: #555;
+    padding: 4px 0;
+}
 
-        .filter-options.active {
-            max-height: 500px;
-        }
+.filters-panel .filter-group {
+    margin-bottom: 15px;
+}
 
-        .filter-option {
-            padding: 8px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-bottom: 1px solid #f0f0f0;
-        }
+.filters-panel .filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 0;
+}
+
+.filters-panel .filter-header .toggle-btn {
+    font-size: 18px;
+    user-select: none;
+}
+
+.filters-panel .filter-options {
+    display: none;
+    margin-top: 6px;
+    padding-left: 8px;
+}
+
+.filters-panel .filter-options.active {
+    display: block;
+}
+
+.filters-panel .filter-options label {
+    display: block;
+    margin-bottom: 6px;
+    cursor: pointer;
+}
+
+.filters-panel .filter-options input[type="text"] {
+    width: 100%;
+    padding: 6px;
+    margin-bottom: 8px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.filters-panel .price-controls {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.filters-panel .price-controls input[type="number"] {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #444;
+    background: #f3efe4;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.filters-panel .price-slider {
+    position: relative;
+    height: 30px;
+    margin-top: 5px;
+}
+
+.filters-panel .price-slider input[type="range"] {
+    position: absolute;
+    width: 100%;
+    pointer-events: none;
+    -webkit-appearance: none;
+    height: 6px;
+    background: #ddd;
+    border-radius: 4px;
+}
+
+.filters-panel .price-slider input[type="range"]::-webkit-slider-thumb {
+    pointer-events: all;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #444;
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+
+.filters-panel .price-slider input[type="range"]::-moz-range-thumb {
+    pointer-events: all;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #444;
+    cursor: pointer;
+}
+
+.filters-panel .action-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.filters-panel .action-buttons button {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    background-color: #444;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.2s ease;
+}
+
+.filters-panel .action-buttons button:hover {
+    background-color: #222;
+}
+.filter-options {
+  display: none;
+}
+
+.filter-options.active {
+  display: block;
+}
+
+
 
         /* Book Grid */
         .book-grid {
@@ -133,29 +261,31 @@
 }
 
 .book-card img {
-    width: 100%;
-    height: 500px;
+    width: 80%; /* Shrinks image inside the card */
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
     border-radius: 8px;
     margin-bottom: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.book-card h3 {
+
+.book-card .book-title {
     font-size: 1rem;
     color: #333;
-    margin: 0.1rem ;
-    font-family:Karla;
+    margin: 0.1rem;
+    font-family: Karla;
 }
 
-.book-card p {
+.book-card .book-author,
+.book-card .book-price {
     font-size: 1rem;
     color: #666;
     margin: 0.5rem 0;
+    font-family: Karla;
 }
 
 
-.book-card img {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;  /* Smooth transition */
-}
 
 .book-card img:hover {
     transform: translateY(-10px);
@@ -216,30 +346,103 @@
 
     <div class="main-container">
         <!-- Filters Panel -->
-        <div class="filters-panel">
-            <h2>REFINE THE SELECTION</h2>
+        <form id="filterForm" method="get" action="${pageContext.request.contextPath}/catalog">
+		    <div class="filters-panel">
+		        <h2>REFINE THE SELECTION</h2>
+		        <hr>
+		
+		        <!-- Active Filters Display -->
+		        <div class="active-filters" id="activeFilters"></div>
+		        
+		
+		        <!-- Sort Filter -->
+		      
+				<form method="get" action="${pageContext.request.contextPath}/catalog" id="sortForm">
+				    <div class="filter-group">
+				        <div class="filter-header" onclick="toggleFilter(this)">
+				            <span>SORT</span>
+				            <span class="toggle-btn">+</span>
+				        </div>
+				        <div class="filter-options">
+				            <label><input type="radio" name="sortBy" value="low-to-high" onchange="document.getElementById('sortForm').submit();"> Price: Low to High</label><br>
+				            <label><input type="radio" name="sortBy" value="high-to-low" onchange="document.getElementById('sortForm').submit();"> Price: High to Low</label><br>
+				            <label><input type="radio" name="sortBy" value="newest" onchange="document.getElementById('sortForm').submit();"> Newest Arrivals</label><br>
+				            <label><input type="radio" name="sortBy" value="bestseller" onchange="document.getElementById('sortForm').submit();"> Best Sellers</label><br>
+				            <label><input type="radio" name="sortBy" value="books-of-the-week" onchange="document.getElementById('sortForm').submit();"> Books Of The Week</label>
+				        </div>
+				    </div>
+				</form>
 
-            <!-- Category Filter Section -->
-            <div class="filter-group">
-                <div class="filter-header" onclick="toggleFilter(this)">
-                    <span>CATEGORIES</span>
-                    <span class="toggle-btn">+</span>
-                </div>
-                <div class="filter-options">
-                    <c:forEach var="category" items="${categories}">
-                        <div class="filter-option">
-                            <input type="radio" name="categoryFilter" value="${category.categoryId}" id="category-${category.categoryId}" />
-                            <label for="category-${category.categoryId}">${category.categoryName}</label>
-                        </div>
-                    </c:forEach>
-                </div>
-            </div>
 
-            <div class="action-buttons">
-                <button onclick="filterBooks()">APPLY FILTER</button>
-                <button>CANCEL</button>
-            </div>
-        </div>
+		        <hr>
+		
+		   
+			   <!-- Author Filter -->
+				<div class="filter-group">
+				    <div class="filter-header" onclick="toggleFilter(this)">
+				        <span>AUTHOR</span>
+				        <span class="toggle-btn">+</span>
+				    </div>
+				    <div class="filter-options">
+				        <input 
+				            type="text" 
+				            name="authorName" 
+				            placeholder="Search author..." 
+				            value="${param.authorName != null ? param.authorName : ''}">
+				    </div>
+				</div>
+
+		        <hr>
+		
+		        <!-- Category Filter -->
+		        <div class="filter-group">
+		            <div class="filter-header" onclick="toggleFilter(this)">
+		                <span>CATEGORY</span>
+		                <span class="toggle-btn">+</span>
+		            </div>
+		            <div class="filter-options">
+		                <c:forEach var="category" items="${categories}">
+		                    <label>
+		                        <input type="radio" name="categoryId" value="${category.categoryId}"> ${category.categoryName}
+		                    </label>
+		                </c:forEach>
+		            </div>
+		        </div>
+		        <hr>
+		
+
+		        <!-- Price Filter -->
+				<div class="filter-group">
+				    <span>PRICE</span>
+				    
+				    <!-- Numeric Inputs -->
+				    <div class="price-controls">
+				        <input type="number" id="priceMinInput" name="minPrice" min="0" max="10000" step="10" value="0" oninput="syncSliderFromInput()">
+				        <input type="number" id="priceMaxInput" name="maxPrice" min="0" max="10000" step="10" value="10000" oninput="syncSliderFromInput()">
+				    </div>
+				    
+				    <!-- Sliders -->
+				    <div class="price-slider">
+				        <input type="range" id="priceMin" min="0" max="10000" step="10" value="0" oninput="updatePriceDisplay()">
+				        <input type="range" id="priceMax" min="0" max="10000" step="10" value="10000" oninput="updatePriceDisplay()">
+				    </div>
+				</div>
+
+		
+		        <!-- Action Buttons -->
+		        <div class="action-buttons">
+		            <button type="submit">APPLY FILTER</button>
+		            <button type="submit" name="clearFilters" value="true">REMOVE ALL FILTERS</button>
+
+		        </div>
+		    </div>
+		</form>
+        
+	  
+
+
+
+
 
         <!-- In the book grid section -->
 		<div class="book-grid">
@@ -248,8 +451,7 @@
 		            <c:forEach var="book" items="${books}">
 		                <div class="book-card">
 		                	<a href="bookdetails?id=${book.bookId}">
-		                		<img src=<c:url value='${book.coverImageUrl}' /> alt="${book.title}" 
-		                         style="width: 100%; height: 200px; object-fit: cover;">
+		                		<img src=<c:url value='${book.coverImageUrl}' /> alt="${book.title}">
 		                	
 		                	 </a>
 		                    
@@ -268,44 +470,75 @@
 		        </c:otherwise>
 		    </c:choose>
 		</div>
+		<c:if test="${totalPages > 1}">
+		    <div class="pagination">
+		        <c:forEach var="i" begin="1" end="${totalPages}">
+		            <c:choose>
+		                <c:when test="${i == currentPage}">
+		                    <span class="current">${i}</span>
+		                </c:when>
+		                <c:otherwise>
+		                    <a href="${pageContext.request.contextPath}/catalog?page=${i}">${i}</a>
+		                </c:otherwise>
+		            </c:choose>
+		        </c:forEach>
+		    </div>
+		</c:if>
+		
 
     <script>
-        // Toggle filter sections
-        function toggleFilter(element) {
-            const options = element.parentElement.querySelector('.filter-options');
-            const toggleBtn = element.querySelector('.toggle-btn');
-            
-            options.classList.toggle('active');
-            toggleBtn.textContent = options.classList.contains('active') ? '-' : '+';
+    function toggleFilter(element) {
+        const options = element.nextElementSibling;
+        const toggleBtn = element.querySelector('.toggle-btn');
+        options.classList.toggle('active');
+        toggleBtn.textContent = options.classList.contains('active') ? '-' : '+';
+    }
+
+    function updatePriceDisplay() {
+        const minSlider = document.getElementById('priceMin');
+        const maxSlider = document.getElementById('priceMax');
+        let min = parseInt(minSlider.value);
+        let max = parseInt(maxSlider.value);
+
+        if (isNaN(min)) min = 0;
+        if (isNaN(max)) max = 10000;
+
+        if (min > max) {
+            [min, max] = [max, min];
+            minSlider.value = min;
+            maxSlider.value = max;
         }
 
-        // Apply filter based on selected category
-        function filterBooks() {
-            const selectedCategoryId = document.querySelector('input[name="categoryFilter"]:checked')?.value;
-            if (selectedCategoryId) {
-                // Assuming the current page will refresh with the filtered books
-                window.location.href = '/catalog?categoryId=' + selectedCategoryId;
-            }
-        }
+        document.getElementById('priceMinInput').value = min;
+        document.getElementById('priceMaxInput').value = max;
+    }
 
-        // Initialize first filter
-        document.querySelector('.filter-header').click();
-        
-        
-        function filterBooks() {
-            const selectedCategoryId = document.querySelector('input[name="categoryFilter"]:checked')?.value;
-            if (selectedCategoryId) {
-                window.location.href = '${pageContext.request.contextPath}/catalog?categoryId=' + selectedCategoryId;
-            }
-        }
+    function syncSliderFromInput() {
+        let min = parseInt(document.getElementById('priceMinInput').value);
+        let max = parseInt(document.getElementById('priceMaxInput').value);
 
-        // Initialize first category as checked
-        document.addEventListener('DOMContentLoaded', () => {
-            const firstRadio = document.querySelector('input[name="categoryFilter"]');
-            if (firstRadio) firstRadio.checked = true;
+        min = isNaN(min) ? 0 : min;
+        max = isNaN(max) ? 10000 : max;
+
+        if (min > max) [min, max] = [max, min];
+
+        document.getElementById('priceMin').value = min;
+        document.getElementById('priceMax').value = max;
+    }
+
+    function searchAuthor(input) {
+        const filter = input.value.toLowerCase();
+        document.querySelectorAll('#authorList label').forEach(label => {
+            const text = label.textContent.toLowerCase();
+            label.style.display = text.includes(filter) ? 'block' : 'none';
         });
-    </script>
+    }
 
-    <script src="${pageContext.request.contextPath}/resources/js/modal.js" defer></script>
+    
+</script>
+
+
+
+    
 </body>
 </html>

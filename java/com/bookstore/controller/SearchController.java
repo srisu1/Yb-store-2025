@@ -14,30 +14,37 @@ import com.bookstore.dao.BookDAO;
 public class SearchController extends HttpServlet {
     private BookDAO bookDAO;
 
+    @Override
     public void init() {
         bookDAO = new BookDAO();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
         String query = request.getParameter("query");
+        HttpSession session = request.getSession();
 
         if (query != null && !query.trim().isEmpty()) {
             try {
-                List<Book> searchResults = bookDAO.searchBooks(query, 1, 20);
-                request.getSession().setAttribute("searchResults", searchResults); // Use session to persist across redirect
+                List<Book> searchResults = bookDAO.searchBooks(query.trim(), 1, 20);
+                session.setAttribute("searchResults", searchResults); // Store results in session for modal use
+                session.setAttribute("searchQuery", query.trim());   // Optionally keep query too
             } catch (Exception e) {
                 e.printStackTrace();
+                session.setAttribute("searchError", "Error during search. Please try again.");
             }
+        } else {
+            session.setAttribute("searchError", "Search query cannot be empty.");
         }
 
-        // Use referer to go back to the page where the modal was opened
+        // Redirect back to the previous page (where modal was triggered)
         String referer = request.getHeader("referer");
-
         if (referer == null || referer.isEmpty()) {
             referer = request.getContextPath() + "/home";
         }
 
-        response.sendRedirect(referer);  // Redirect back to the same page
+        response.sendRedirect(referer);
     }
 }
-

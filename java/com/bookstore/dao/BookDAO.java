@@ -835,6 +835,104 @@ public class BookDAO {
         books.addAll(bookMap.values());
         return books;
     }
+    public List<Book> getFilteredBooks(List<Integer> categoryIds) throws SQLException, ClassNotFoundException {
+        List<Book> books = new ArrayList<>();
+        Map<Integer, Book> bookMap = new HashMap<>();
+
+        Connection connection = DbConfig.getDbConnection();
+
+        // Base SQL: select books with authors and categories via joins
+        StringBuilder sql = new StringBuilder(
+            "SELECT b.Book_id, b.Book_Title, b.Book_coverimageurl, b.Book_price, " +
+            "b.Book_description, b.Book_isbn, b.Publication_date, b.Book_stockquantity, " +
+            "a.Author_id, a.Author_name, a.Author_bio, a.Author_email, " +
+            "c.Category_id, c.Category_name " +
+            "FROM Books b " +
+            "LEFT JOIN Author_Book ab ON b.Book_id = ab.Book_id " +
+            "LEFT JOIN Author a ON ab.Author_id = a.Author_id " +
+            "LEFT JOIN Book_Category bc ON b.Book_id = bc.Book_id " +
+            "LEFT JOIN Category c ON bc.Category_id = c.Category_id"
+        );
+
+        // Add WHERE clause only if categoryIds is not empty
+        if (categoryIds != null && !categoryIds.isEmpty()) {
+            sql.append(" WHERE bc.Category_id IN (");
+            for (int i = 0; i < categoryIds.size(); i++) {
+                sql.append("?");
+                if (i < categoryIds.size() - 1) {
+                    sql.append(",");
+                }
+            }
+            sql.append(")");
+        }
+
+        sql.append(" ORDER BY b.Book_Title ASC");  // optional ordering
+
+        PreparedStatement ps = connection.prepareStatement(sql.toString());
+
+        // Set category IDs parameters if present
+        if (categoryIds != null && !categoryIds.isEmpty()) {
+            for (int i = 0; i < categoryIds.size(); i++) {
+                ps.setInt(i + 1, categoryIds.get(i));
+            }
+        }
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            int bookId = rs.getInt("Book_id");
+            Book book = bookMap.get(bookId);
+
+            if (book == null) {
+                book = new Book(
+                    bookId,
+                    rs.getString("Book_Title"),
+                    rs.getString("Book_coverimageurl"),
+                    rs.getDouble("Book_price"),
+                    rs.getString("Book_description"),
+                    rs.getString("Book_isbn"),
+                    rs.getDate("Publication_date"),
+                    rs.getInt("Book_stockquantity")
+                );
+                book.setAuthors(new ArrayList<>());
+                book.setCategories(new ArrayList<>());
+                bookMap.put(bookId, book);
+            }
+
+            // Add Author if not already added
+            int authorId = rs.getInt("Author_id");
+            if (!rs.wasNull()) {
+                Author author = new Author(
+                    authorId,
+                    rs.getString("Author_name"),
+                    rs.getString("Author_bio"),
+                    rs.getString("Author_email")
+                );
+                if (!book.getAuthors().contains(author)) {
+                    book.getAuthors().add(author);
+                }
+            }
+
+            // Add Category if not already added
+            String categoryName = rs.getString("Category_name");
+            int categoryId = rs.getInt("Category_id");
+            if (categoryName != null && !categoryName.isEmpty()) {
+                Category category = new Category(categoryId, categoryName);
+                boolean alreadyAdded = book.getCategories().stream()
+                    .anyMatch(c -> c.getCategoryName().equalsIgnoreCase(categoryName));
+                if (!alreadyAdded) {
+                    book.getCategories().add(category);
+                }
+            }
+        }
+
+        rs.close();
+        ps.close();
+        connection.close();
+
+        return new ArrayList<>(bookMap.values());
+    }
+
 
 
 
@@ -851,3 +949,5 @@ public class BookDAO {
     
   
 }
+	
+  

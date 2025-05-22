@@ -21,16 +21,20 @@ public class LogoutServlet extends HttpServlet {
             session.invalidate();
         }
 
-        // 2. Delete cookies using header-based method
+        // 2. Create a new session just to store the logout message
+        HttpSession newSession = request.getSession(true);
+        newSession.setAttribute("logoutMessage", "You have successfully logged out.");
+
+        // 3. Delete cookies using header-based method
         CookiesUtil.deleteCookie(response, "rememberMe");
         CookiesUtil.deleteCookie(response, "userLoggedIn");
 
-        // 3. Prevent caching
+        // 4. Prevent caching
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         response.setHeader("Pragma", "no-cache");
         response.setDateHeader("Expires", 0);
 
-        // 4. FINAL STEP: Redirect
+        // 5. Redirect
         response.sendRedirect(request.getContextPath() + "/home");
     }
 }
